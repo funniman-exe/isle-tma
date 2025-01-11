@@ -101,6 +101,7 @@ public:
 		Vector3& p_direction
 	);
 	void RemoveActor(LegoPathActor* p_actor);
+	MxBool ActorExists(LegoPathActor* p_actor);
 	void FUN_1001fda0(LegoAnimPresenter* p_presenter);
 	void FUN_1001fe90(LegoAnimPresenter* p_presenter);
 	LegoPathBoundary* FindPathBoundary(const char* p_name);
@@ -184,7 +185,8 @@ protected:
 // TEMPLATE: LEGO1 0x10020b20
 // _Tree<MxCore *,MxCore *,set<MxCore *,CoreSetCompare,allocator<MxCore *> >::_Kfn,CoreSetCompare,allocator<MxCore *> >::iterator::_Dec
 
-// XTEMPLATE LEGO1 0x10020b70
+// TEMPLATE: LEGO1 0x10020b70
+// _Tree<MxCore *,MxCore *,set<MxCore *,CoreSetCompare,allocator<MxCore *> >::_Kfn,CoreSetCompare,allocator<MxCore *> >::lower_bound
 
 // TEMPLATE: LEGO1 0x10020bb0
 // _Tree<MxCore *,MxCore *,set<MxCore *,CoreSetCompare,allocator<MxCore *> >::_Kfn,CoreSetCompare,allocator<MxCore *> >::_Buynode
