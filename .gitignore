@@ -39,7 +39,7 @@ build/cmake_install.cmake
 build/tma_sources.txt
 
 dgVoodooSetup.exe
-build/Lego/
+build/Lego/*
 !build/Lego/Scripts
 build/Lego/Scripts/*
 !build/Lego/Scripts/NOCD.SI

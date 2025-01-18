@@ -973,21 +973,15 @@
 },
 {
   "directory": "D:/ISLE/Decomp/isle-master/build",
-  "command": "D:\\tools\\MSVC420\\bin\\CL.EXE  /nologo /TP -DDIRECTX5_SDK -DENABLE_DECOMP_ASSERTS -Dlego1_EXPORTS -ID:\\ISLE\\Decomp\\isle-master\\util -ID:\\ISLE\\Decomp\\isle-master\\LEGO1 -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\omni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\sources -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include\\actions -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\vec -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\smartheap -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\dx5\\inc /W3 /GX /D \"WIN32\" /D \"_WINDOWS\" /Zi /O2 /D \"NDEBUG\" -MT /FID:/ISLE/Decomp/isle-master/3rdparty/smartheap/SMRTHEAP.HPP /FoCMakeFiles\\lego1.dir\\LEGO1\\lego\\legoomni\\src\\actors\\act3ammo.cpp.obj /FdCMakeFiles\\lego1.dir\\ -c D:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\src\\actors\\act3ammo.cpp",
-  "file": "D:/ISLE/Decomp/isle-master/LEGO1/lego/legoomni/src/actors/act3ammo.cpp",
-  "output": "CMakeFiles/lego1.dir/LEGO1/lego/legoomni/src/actors/act3ammo.cpp.obj"
-},
-{
-  "directory": "D:/ISLE/Decomp/isle-master/build",
-  "command": "D:\\tools\\MSVC420\\bin\\CL.EXE  /nologo /TP -DDIRECTX5_SDK -DENABLE_DECOMP_ASSERTS -Dlego1_EXPORTS -ID:\\ISLE\\Decomp\\isle-master\\util -ID:\\ISLE\\Decomp\\isle-master\\LEGO1 -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\omni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\sources -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include\\actions -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\vec -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\smartheap -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\dx5\\inc /W3 /GX /D \"WIN32\" /D \"_WINDOWS\" /Zi /O2 /D \"NDEBUG\" -MT /FID:/ISLE/Decomp/isle-master/3rdparty/smartheap/SMRTHEAP.HPP /FoCMakeFiles\\lego1.dir\\LEGO1\\lego\\legoomni\\src\\audio\\legocachesoundmanager.cpp.obj /FdCMakeFiles\\lego1.dir\\ -c D:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\src\\audio\\legocachesoundmanager.cpp",
-  "file": "D:/ISLE/Decomp/isle-master/LEGO1/lego/legoomni/src/audio/legocachesoundmanager.cpp",
-  "output": "CMakeFiles/lego1.dir/LEGO1/lego/legoomni/src/audio/legocachesoundmanager.cpp.obj"
-},
-{
-  "directory": "D:/ISLE/Decomp/isle-master/build",
   "command": "D:\\tools\\MSVC420\\bin\\CL.EXE  /nologo /TP -DDIRECTX5_SDK -DENABLE_DECOMP_ASSERTS -Dlego1_EXPORTS -ID:\\ISLE\\Decomp\\isle-master\\util -ID:\\ISLE\\Decomp\\isle-master\\LEGO1 -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\omni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\sources -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include\\actions -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\vec -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\smartheap -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\dx5\\inc /W3 /GX /D \"WIN32\" /D \"_WINDOWS\" /Zi /O2 /D \"NDEBUG\" -MT /FID:/ISLE/Decomp/isle-master/3rdparty/smartheap/SMRTHEAP.HPP /FoCMakeFiles\\lego1.dir\\LEGO1\\lego\\legoomni\\src\\worlds\\infocenterdoor.cpp.obj /FdCMakeFiles\\lego1.dir\\ -c D:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\src\\worlds\\infocenterdoor.cpp",
   "file": "D:/ISLE/Decomp/isle-master/LEGO1/lego/legoomni/src/worlds/infocenterdoor.cpp",
   "output": "CMakeFiles/lego1.dir/LEGO1/lego/legoomni/src/worlds/infocenterdoor.cpp.obj"
+},
+{
+  "directory": "D:/ISLE/Decomp/isle-master/build",
+  "command": "D:\\tools\\MSVC420\\bin\\CL.EXE  /nologo /TP -DDIRECTX5_SDK -DENABLE_DECOMP_ASSERTS -Dlego1_EXPORTS -ID:\\ISLE\\Decomp\\isle-master\\util -ID:\\ISLE\\Decomp\\isle-master\\LEGO1 -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\omni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\sources -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include\\actions -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\vec -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\smartheap -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\dx5\\inc /W3 /GX /D \"WIN32\" /D \"_WINDOWS\" /Zi /O2 /D \"NDEBUG\" -MT /FID:/ISLE/Decomp/isle-master/3rdparty/smartheap/SMRTHEAP.HPP /FoCMakeFiles\\lego1.dir\\LEGO1\\lego\\legoomni\\src\\common\\legovariables.cpp.obj /FdCMakeFiles\\lego1.dir\\ -c D:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\src\\common\\legovariables.cpp",
+  "file": "D:/ISLE/Decomp/isle-master/LEGO1/lego/legoomni/src/common/legovariables.cpp",
+  "output": "CMakeFiles/lego1.dir/LEGO1/lego/legoomni/src/common/legovariables.cpp.obj"
 },
 {
   "directory": "D:/ISLE/Decomp/isle-master/build",
@@ -997,15 +991,9 @@
 },
 {
   "directory": "D:/ISLE/Decomp/isle-master/build",
-  "command": "D:\\tools\\MSVC420\\bin\\CL.EXE  /nologo /TP -DDIRECTX5_SDK -DENABLE_DECOMP_ASSERTS -Dlego1_EXPORTS -ID:\\ISLE\\Decomp\\isle-master\\util -ID:\\ISLE\\Decomp\\isle-master\\LEGO1 -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\omni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\sources -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include\\actions -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\vec -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\smartheap -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\dx5\\inc /W3 /GX /D \"WIN32\" /D \"_WINDOWS\" /Zi /O2 /D \"NDEBUG\" -MT /FID:/ISLE/Decomp/isle-master/3rdparty/smartheap/SMRTHEAP.HPP /FoCMakeFiles\\lego1.dir\\LEGO1\\lego\\legoomni\\src\\common\\legobackgroundcolor.cpp.obj /FdCMakeFiles\\lego1.dir\\ -c D:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\src\\common\\legobackgroundcolor.cpp",
-  "file": "D:/ISLE/Decomp/isle-master/LEGO1/lego/legoomni/src/common/legobackgroundcolor.cpp",
-  "output": "CMakeFiles/lego1.dir/LEGO1/lego/legoomni/src/common/legobackgroundcolor.cpp.obj"
-},
-{
-  "directory": "D:/ISLE/Decomp/isle-master/build",
-  "command": "D:\\tools\\MSVC420\\bin\\CL.EXE  /nologo /TP -DDIRECTX5_SDK -DENABLE_DECOMP_ASSERTS -Dlego1_EXPORTS -ID:\\ISLE\\Decomp\\isle-master\\util -ID:\\ISLE\\Decomp\\isle-master\\LEGO1 -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\omni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\sources -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include\\actions -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\vec -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\smartheap -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\dx5\\inc /W3 /GX /D \"WIN32\" /D \"_WINDOWS\" /Zi /O2 /D \"NDEBUG\" -MT /FID:/ISLE/Decomp/isle-master/3rdparty/smartheap/SMRTHEAP.HPP /FoCMakeFiles\\lego1.dir\\LEGO1\\lego\\legoomni\\src\\common\\legofullscreenmovie.cpp.obj /FdCMakeFiles\\lego1.dir\\ -c D:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\src\\common\\legofullscreenmovie.cpp",
-  "file": "D:/ISLE/Decomp/isle-master/LEGO1/lego/legoomni/src/common/legofullscreenmovie.cpp",
-  "output": "CMakeFiles/lego1.dir/LEGO1/lego/legoomni/src/common/legofullscreenmovie.cpp.obj"
+  "command": "D:\\tools\\MSVC420\\bin\\CL.EXE  /nologo /TP -DDIRECTX5_SDK -DENABLE_DECOMP_ASSERTS -Dlego1_EXPORTS -ID:\\ISLE\\Decomp\\isle-master\\util -ID:\\ISLE\\Decomp\\isle-master\\LEGO1 -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\omni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\sources -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include\\actions -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\vec -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\smartheap -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\dx5\\inc /W3 /GX /D \"WIN32\" /D \"_WINDOWS\" /Zi /O2 /D \"NDEBUG\" -MT /FID:/ISLE/Decomp/isle-master/3rdparty/smartheap/SMRTHEAP.HPP /FoCMakeFiles\\lego1.dir\\LEGO1\\lego\\legoomni\\src\\audio\\legocachesoundmanager.cpp.obj /FdCMakeFiles\\lego1.dir\\ -c D:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\src\\audio\\legocachesoundmanager.cpp",
+  "file": "D:/ISLE/Decomp/isle-master/LEGO1/lego/legoomni/src/audio/legocachesoundmanager.cpp",
+  "output": "CMakeFiles/lego1.dir/LEGO1/lego/legoomni/src/audio/legocachesoundmanager.cpp.obj"
 },
 {
   "directory": "D:/ISLE/Decomp/isle-master/build",
@@ -1057,12 +1045,6 @@
 },
 {
   "directory": "D:/ISLE/Decomp/isle-master/build",
-  "command": "D:\\tools\\MSVC420\\bin\\CL.EXE  /nologo /TP -DDIRECTX5_SDK -DENABLE_DECOMP_ASSERTS -Dlego1_EXPORTS -ID:\\ISLE\\Decomp\\isle-master\\util -ID:\\ISLE\\Decomp\\isle-master\\LEGO1 -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\omni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\sources -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include\\actions -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\vec -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\smartheap -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\dx5\\inc /W3 /GX /D \"WIN32\" /D \"_WINDOWS\" /Zi /O2 /D \"NDEBUG\" -MT /FID:/ISLE/Decomp/isle-master/3rdparty/smartheap/SMRTHEAP.HPP /FoCMakeFiles\\lego1.dir\\LEGO1\\lego\\legoomni\\src\\entity\\legojetskiraceactor.cpp.obj /FdCMakeFiles\\lego1.dir\\ -c D:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\src\\entity\\legojetskiraceactor.cpp",
-  "file": "D:/ISLE/Decomp/isle-master/LEGO1/lego/legoomni/src/entity/legojetskiraceactor.cpp",
-  "output": "CMakeFiles/lego1.dir/LEGO1/lego/legoomni/src/entity/legojetskiraceactor.cpp.obj"
-},
-{
-  "directory": "D:/ISLE/Decomp/isle-master/build",
   "command": "D:\\tools\\MSVC420\\bin\\CL.EXE  /nologo /TP -DDIRECTX5_SDK -DENABLE_DECOMP_ASSERTS -Dlego1_EXPORTS -ID:\\ISLE\\Decomp\\isle-master\\util -ID:\\ISLE\\Decomp\\isle-master\\LEGO1 -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\omni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\sources -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include\\actions -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\vec -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\smartheap -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\dx5\\inc /W3 /GX /D \"WIN32\" /D \"_WINDOWS\" /Zi /O2 /D \"NDEBUG\" -MT /FID:/ISLE/Decomp/isle-master/3rdparty/smartheap/SMRTHEAP.HPP /FoCMakeFiles\\lego1.dir\\LEGO1\\lego\\legoomni\\src\\audio\\lego3dwavepresenter.cpp.obj /FdCMakeFiles\\lego1.dir\\ -c D:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\src\\audio\\lego3dwavepresenter.cpp",
   "file": "D:/ISLE/Decomp/isle-master/LEGO1/lego/legoomni/src/audio/lego3dwavepresenter.cpp",
   "output": "CMakeFiles/lego1.dir/LEGO1/lego/legoomni/src/audio/lego3dwavepresenter.cpp.obj"
@@ -1111,12 +1093,6 @@
 },
 {
   "directory": "D:/ISLE/Decomp/isle-master/build",
-  "command": "D:\\tools\\MSVC420\\bin\\CL.EXE  /nologo /TP -DDIRECTX5_SDK -DENABLE_DECOMP_ASSERTS -Dlego1_EXPORTS -ID:\\ISLE\\Decomp\\isle-master\\util -ID:\\ISLE\\Decomp\\isle-master\\LEGO1 -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\omni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\sources -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include\\actions -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\vec -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\smartheap -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\dx5\\inc /W3 /GX /D \"WIN32\" /D \"_WINDOWS\" /Zi /O2 /D \"NDEBUG\" -MT /FID:/ISLE/Decomp/isle-master/3rdparty/smartheap/SMRTHEAP.HPP /FoCMakeFiles\\lego1.dir\\LEGO1\\lego\\legoomni\\src\\common\\legovariables.cpp.obj /FdCMakeFiles\\lego1.dir\\ -c D:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\src\\common\\legovariables.cpp",
-  "file": "D:/ISLE/Decomp/isle-master/LEGO1/lego/legoomni/src/common/legovariables.cpp",
-  "output": "CMakeFiles/lego1.dir/LEGO1/lego/legoomni/src/common/legovariables.cpp.obj"
-},
-{
-  "directory": "D:/ISLE/Decomp/isle-master/build",
   "command": "D:\\tools\\MSVC420\\bin\\CL.EXE  /nologo /TP -DDIRECTX5_SDK -DENABLE_DECOMP_ASSERTS -Dlego1_EXPORTS -ID:\\ISLE\\Decomp\\isle-master\\util -ID:\\ISLE\\Decomp\\isle-master\\LEGO1 -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\omni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\sources -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include\\actions -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\vec -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\smartheap -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\dx5\\inc /W3 /GX /D \"WIN32\" /D \"_WINDOWS\" /Zi /O2 /D \"NDEBUG\" -MT /FID:/ISLE/Decomp/isle-master/3rdparty/smartheap/SMRTHEAP.HPP /FoCMakeFiles\\lego1.dir\\LEGO1\\lego\\legoomni\\src\\main\\scripts.cpp.obj /FdCMakeFiles\\lego1.dir\\ -c D:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\src\\main\\scripts.cpp",
   "file": "D:/ISLE/Decomp/isle-master/LEGO1/lego/legoomni/src/main/scripts.cpp",
   "output": "CMakeFiles/lego1.dir/LEGO1/lego/legoomni/src/main/scripts.cpp.obj"
@@ -1126,6 +1102,12 @@
   "command": "D:\\tools\\MSVC420\\bin\\CL.EXE  /nologo /TP -DDIRECTX5_SDK -DENABLE_DECOMP_ASSERTS -Dlego1_EXPORTS -ID:\\ISLE\\Decomp\\isle-master\\util -ID:\\ISLE\\Decomp\\isle-master\\LEGO1 -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\omni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\sources -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include\\actions -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\vec -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\smartheap -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\dx5\\inc /W3 /GX /D \"WIN32\" /D \"_WINDOWS\" /Zi /O2 /D \"NDEBUG\" -MT /FID:/ISLE/Decomp/isle-master/3rdparty/smartheap/SMRTHEAP.HPP /FoCMakeFiles\\lego1.dir\\LEGO1\\lego\\legoomni\\src\\entity\\legoentitypresenter.cpp.obj /FdCMakeFiles\\lego1.dir\\ -c D:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\src\\entity\\legoentitypresenter.cpp",
   "file": "D:/ISLE/Decomp/isle-master/LEGO1/lego/legoomni/src/entity/legoentitypresenter.cpp",
   "output": "CMakeFiles/lego1.dir/LEGO1/lego/legoomni/src/entity/legoentitypresenter.cpp.obj"
+},
+{
+  "directory": "D:/ISLE/Decomp/isle-master/build",
+  "command": "D:\\tools\\MSVC420\\bin\\CL.EXE  /nologo /TP -DDIRECTX5_SDK -DENABLE_DECOMP_ASSERTS -Dlego1_EXPORTS -ID:\\ISLE\\Decomp\\isle-master\\util -ID:\\ISLE\\Decomp\\isle-master\\LEGO1 -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\omni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\sources -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include\\actions -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\vec -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\smartheap -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\dx5\\inc /W3 /GX /D \"WIN32\" /D \"_WINDOWS\" /Zi /O2 /D \"NDEBUG\" -MT /FID:/ISLE/Decomp/isle-master/3rdparty/smartheap/SMRTHEAP.HPP /FoCMakeFiles\\lego1.dir\\LEGO1\\lego\\legoomni\\src\\actors\\act3ammo.cpp.obj /FdCMakeFiles\\lego1.dir\\ -c D:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\src\\actors\\act3ammo.cpp",
+  "file": "D:/ISLE/Decomp/isle-master/LEGO1/lego/legoomni/src/actors/act3ammo.cpp",
+  "output": "CMakeFiles/lego1.dir/LEGO1/lego/legoomni/src/actors/act3ammo.cpp.obj"
 },
 {
   "directory": "D:/ISLE/Decomp/isle-master/build",
@@ -1144,6 +1126,12 @@
   "command": "D:\\tools\\MSVC420\\bin\\CL.EXE  /nologo /TP -DDIRECTX5_SDK -DENABLE_DECOMP_ASSERTS -Dlego1_EXPORTS -ID:\\ISLE\\Decomp\\isle-master\\util -ID:\\ISLE\\Decomp\\isle-master\\LEGO1 -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\omni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\sources -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include\\actions -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\vec -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\smartheap -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\dx5\\inc /W3 /GX /D \"WIN32\" /D \"_WINDOWS\" /Zi /O2 /D \"NDEBUG\" -MT /FID:/ISLE/Decomp/isle-master/3rdparty/smartheap/SMRTHEAP.HPP /FoCMakeFiles\\lego1.dir\\LEGO1\\lego\\legoomni\\src\\main\\legomain.cpp.obj /FdCMakeFiles\\lego1.dir\\ -c D:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\src\\main\\legomain.cpp",
   "file": "D:/ISLE/Decomp/isle-master/LEGO1/lego/legoomni/src/main/legomain.cpp",
   "output": "CMakeFiles/lego1.dir/LEGO1/lego/legoomni/src/main/legomain.cpp.obj"
+},
+{
+  "directory": "D:/ISLE/Decomp/isle-master/build",
+  "command": "D:\\tools\\MSVC420\\bin\\CL.EXE  /nologo /TP -DDIRECTX5_SDK -DENABLE_DECOMP_ASSERTS -Dlego1_EXPORTS -ID:\\ISLE\\Decomp\\isle-master\\util -ID:\\ISLE\\Decomp\\isle-master\\LEGO1 -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\omni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\sources -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include -ID:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\include\\actions -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\vec -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\smartheap -ID:\\ISLE\\Decomp\\isle-master\\3rdparty\\dx5\\inc /W3 /GX /D \"WIN32\" /D \"_WINDOWS\" /Zi /O2 /D \"NDEBUG\" -MT /FID:/ISLE/Decomp/isle-master/3rdparty/smartheap/SMRTHEAP.HPP /FoCMakeFiles\\lego1.dir\\LEGO1\\lego\\legoomni\\src\\entity\\legojetskiraceactor.cpp.obj /FdCMakeFiles\\lego1.dir\\ -c D:\\ISLE\\Decomp\\isle-master\\LEGO1\\lego\\legoomni\\src\\entity\\legojetskiraceactor.cpp",
+  "file": "D:/ISLE/Decomp/isle-master/LEGO1/lego/legoomni/src/entity/legojetskiraceactor.cpp",
+  "output": "CMakeFiles/lego1.dir/LEGO1/lego/legoomni/src/entity/legojetskiraceactor.cpp.obj"
 },
 {
   "directory": "D:/ISLE/Decomp/isle-master/build",
