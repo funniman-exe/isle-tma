@@ -605,18 +605,25 @@ PizzaMissionState::PizzaMissionState()
 }
 
 // FUNCTION: LEGO1 0x100393c0
-MxResult PizzaMissionState::Serialize(LegoFile* p_file)
+// FUNCTION: BETA10 0x100eebf2
+MxResult PizzaMissionState::Serialize(LegoStorage* p_storage)
 {
-	LegoState::Serialize(p_file);
+	LegoState::Serialize(p_storage);
 
-	if (p_file->IsReadMode()) {
+	if (p_storage->IsReadMode()) {
 		for (MxS16 i = 0; i < 5; i++) {
-			m_missions[i].ReadFromFile(p_file);
+			p_storage->ReadS16(m_missions[i].m_unk0x06);
+			p_storage->ReadS16(m_missions[i].m_unk0x14);
+			p_storage->ReadS16(m_missions[i].m_score);
+			p_storage->ReadS16(m_missions[i].m_hiScore);
 		}
 	}
-	else if (p_file->IsWriteMode()) {
+	else if (p_storage->IsWriteMode()) {
 		for (MxS16 i = 0; i < 5; i++) {
-			m_missions[i].WriteToFile(p_file);
+			p_storage->WriteS16(m_missions[i].m_unk0x06);
+			p_storage->WriteS16(m_missions[i].m_unk0x14);
+			p_storage->WriteS16(m_missions[i].m_score);
+			p_storage->WriteS16(m_missions[i].m_hiScore);
 		}
 	}
 
@@ -633,6 +640,7 @@ PizzaMissionState::Mission* PizzaMissionState::GetMission(MxU8 p_actorId)
 		}
 	}
 
+	assert("No pizza mission for this character!" == NULL);
 	return NULL;
 }
 

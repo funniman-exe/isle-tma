@@ -93,24 +93,6 @@ public:
 		// FUNCTION: BETA10 0x100ef7e0
 		MxLong GetTimeoutTime() { return m_finishTimes[3]; }
 
-		MxResult WriteToFile(LegoFile* p_file)
-		{
-			Write(p_file, m_unk0x06);
-			Write(p_file, m_unk0x14);
-			Write(p_file, m_score);
-			Write(p_file, m_hiScore);
-			return SUCCESS;
-		}
-
-		MxResult ReadFromFile(LegoFile* p_file)
-		{
-			Read(p_file, &m_unk0x06);
-			Read(p_file, &m_unk0x14);
-			Read(p_file, &m_score);
-			Read(p_file, &m_hiScore);
-			return SUCCESS;
-		}
-
 		MxS16 m_numActions;            // 0x00
 		MxU8 m_actorId;                // 0x02
 		undefined2 m_unk0x04;          // 0x04
@@ -140,7 +122,7 @@ public:
 		return !strcmp(p_name, PizzaMissionState::ClassName()) || LegoState::IsA(p_name);
 	}
 
-	MxResult Serialize(LegoFile* p_file) override; // vtable+0x1c
+	MxResult Serialize(LegoStorage* p_storage) override; // vtable+0x1c
 
 	// FUNCTION: BETA10 0x100ef470
 	void SetUnknown0xb0(MxU32 p_unk0xb0) { m_unk0xb0 = p_unk0xb0; }

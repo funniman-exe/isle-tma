@@ -118,18 +118,18 @@ MxU32 PizzeriaState::NextAction()
 
 // FUNCTION: LEGO1 0x10017da0
 // FUNCTION: BETA10 0x100efe33
-MxResult PizzeriaState::Serialize(LegoFile* p_file)
+MxResult PizzeriaState::Serialize(LegoStorage* p_storage)
 {
-	MxResult res = LegoState::Serialize(p_file);
+	MxResult res = LegoState::Serialize(p_storage);
 
-	if (p_file->IsReadMode()) {
+	if (p_storage->IsReadMode()) {
 		for (MxS16 i = 0; i < 5; i++) {
-			m_unk0x08[i].ReadFromFile(p_file);
+			p_storage->ReadS16(m_unk0x08[i].m_nextIndex);
 		}
 	}
 	else {
 		for (MxS16 i = 0; i < 5; i++) {
-			m_unk0x08[i].WriteToFile(p_file);
+			p_storage->WriteS16(m_unk0x08[i].m_nextIndex);
 		}
 	}
 

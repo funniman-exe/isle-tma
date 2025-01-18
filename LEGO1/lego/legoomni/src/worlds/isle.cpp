@@ -13,7 +13,6 @@
 #include "jukebox_actions.h"
 #include "jukeboxentity.h"
 #include "legoanimationmanager.h"
-#include "legobackgroundcolor.h"
 #include "legocontrolmanager.h"
 #include "legoinputmanager.h"
 #include "legomain.h"
@@ -1186,6 +1185,12 @@ void Isle::CreateState()
 	}
 }
 
+// FUNCTION: LEGO1 0x10033170
+void Isle::VTable0x60()
+{
+	// empty
+}
+
 // FUNCTION: LEGO1 0x10033180
 MxBool Isle::Escape()
 {
@@ -1318,152 +1323,142 @@ Act1State::Act1State()
 
 // FUNCTION: LEGO1 0x10033ac0
 // FUNCTION: BETA10 0x1003524f
-MxResult Act1State::Serialize(LegoFile* p_file)
+MxResult Act1State::Serialize(LegoStorage* p_storage)
 {
-	LegoState::Serialize(p_file);
+	LegoState::Serialize(p_storage);
 
-	m_motocyclePlane.Serialize(p_file);
-	m_bikePlane.Serialize(p_file);
-	m_skateboardPlane.Serialize(p_file);
-	m_helicopterPlane.Serialize(p_file);
-	m_jetskiPlane.Serialize(p_file);
-	m_dunebuggyPlane.Serialize(p_file);
-	m_racecarPlane.Serialize(p_file);
+	m_motocyclePlane.Serialize(p_storage);
+	m_bikePlane.Serialize(p_storage);
+	m_skateboardPlane.Serialize(p_storage);
+	m_helicopterPlane.Serialize(p_storage);
+	m_jetskiPlane.Serialize(p_storage);
+	m_dunebuggyPlane.Serialize(p_storage);
+	m_racecarPlane.Serialize(p_storage);
 
-	if (p_file->IsWriteMode()) {
-		if (m_helicopterPlane.IsPresent()) {
-			if (m_helicopterWindshield) {
-				WriteNamedTexture(p_file, m_helicopterWindshield);
+	if (p_storage->IsWriteMode()) {
+		if (strcmp(m_helicopterPlane.m_name.GetData(), "")) {
+			if (!m_helicopterWindshield) {
+				WriteDefaultTexture(p_storage, "chwind.gif");
 			}
 			else {
-				WriteDefaultTexture(p_file, "chwind.gif");
+				WriteNamedTexture(p_storage, m_helicopterWindshield);
 			}
 
-			if (m_helicopterJetLeft) {
-				WriteNamedTexture(p_file, m_helicopterJetLeft);
+			if (!m_helicopterJetLeft) {
+				WriteDefaultTexture(p_storage, "chjetl.gif");
 			}
 			else {
-				WriteDefaultTexture(p_file, "chjetl.gif");
+				WriteNamedTexture(p_storage, m_helicopterJetLeft);
 			}
 
-			if (m_helicopterJetRight) {
-				WriteNamedTexture(p_file, m_helicopterJetRight);
+			if (!m_helicopterJetRight) {
+				WriteDefaultTexture(p_storage, "chjetr.gif");
 			}
 			else {
-				WriteDefaultTexture(p_file, "chjetr.gif");
+				WriteNamedTexture(p_storage, m_helicopterJetRight);
 			}
 		}
 
-		if (m_jetskiPlane.IsPresent()) {
-			if (m_jetskiFront) {
-				WriteNamedTexture(p_file, m_jetskiFront);
+		if (strcmp(m_jetskiPlane.m_name.GetData(), "")) {
+			if (!m_jetskiFront) {
+				WriteDefaultTexture(p_storage, "jsfrnt.gif");
 			}
 			else {
-				WriteDefaultTexture(p_file, "jsfrnt.gif");
+				WriteNamedTexture(p_storage, m_jetskiFront);
 			}
 
-			if (m_jetskiWindshield) {
-				WriteNamedTexture(p_file, m_jetskiWindshield);
+			if (!m_jetskiWindshield) {
+				WriteDefaultTexture(p_storage, "jswnsh.gif");
 			}
 			else {
-				WriteDefaultTexture(p_file, "jswnsh.gif");
+				WriteNamedTexture(p_storage, m_jetskiWindshield);
 			}
 		}
 
-		if (m_dunebuggyPlane.IsPresent()) {
-			if (m_dunebuggyFront) {
-				WriteNamedTexture(p_file, m_dunebuggyFront);
+		if (strcmp(m_dunebuggyPlane.m_name.GetData(), "")) {
+			if (!m_dunebuggyFront) {
+				WriteDefaultTexture(p_storage, "dbfrfn.gif");
 			}
 			else {
-				WriteDefaultTexture(p_file, "dbfrfn.gif");
+				WriteNamedTexture(p_storage, m_dunebuggyFront);
 			}
 		}
 
-		if (m_racecarPlane.IsPresent()) {
-			if (m_racecarFront) {
-				WriteNamedTexture(p_file, m_racecarFront);
+		if (strcmp(m_racecarPlane.m_name.GetData(), "")) {
+			if (!m_racecarFront) {
+				WriteDefaultTexture(p_storage, "rcfrnt.gif");
 			}
 			else {
-				WriteDefaultTexture(p_file, "rcfrnt.gif");
+				WriteNamedTexture(p_storage, m_racecarFront);
 			}
 
-			if (m_racecarBack) {
-				WriteNamedTexture(p_file, m_racecarBack);
+			if (!m_racecarBack) {
+				WriteDefaultTexture(p_storage, "rcback.gif");
 			}
 			else {
-				WriteDefaultTexture(p_file, "rcback.gif");
+				WriteNamedTexture(p_storage, m_racecarBack);
 			}
 
-			if (m_racecarTail) {
-				WriteNamedTexture(p_file, m_racecarTail);
+			if (!m_racecarTail) {
+				WriteDefaultTexture(p_storage, "rctail.gif");
 			}
 			else {
-				WriteDefaultTexture(p_file, "rctail.gif");
+				WriteNamedTexture(p_storage, m_racecarTail);
 			}
 		}
 
-		m_cptClickDialogue.WriteToFile(p_file);
-		Write(p_file, m_unk0x022);
+		p_storage->WriteS16(m_cptClickDialogue.m_nextIndex);
+		p_storage->WriteU8(m_unk0x022);
 	}
-	else if (p_file->IsReadMode()) {
-		if (m_helicopterPlane.IsPresent()) {
-			m_helicopterWindshield = ReadNamedTexture(p_file);
-			if (m_helicopterWindshield == NULL) {
+	else if (p_storage->IsReadMode()) {
+		if (strcmp(m_helicopterPlane.m_name.GetData(), "")) {
+			if ((m_helicopterWindshield = ReadNamedTexture(p_storage)) == NULL) {
 				return FAILURE;
 			}
 
-			m_helicopterJetLeft = ReadNamedTexture(p_file);
-			if (m_helicopterJetLeft == NULL) {
+			if ((m_helicopterJetLeft = ReadNamedTexture(p_storage)) == NULL) {
 				return FAILURE;
 			}
 
-			m_helicopterJetRight = ReadNamedTexture(p_file);
-			if (m_helicopterJetRight == NULL) {
+			if ((m_helicopterJetRight = ReadNamedTexture(p_storage)) == NULL) {
 				return FAILURE;
 			}
 		}
 
-		if (m_jetskiPlane.IsPresent()) {
-			m_jetskiFront = ReadNamedTexture(p_file);
-			if (m_jetskiFront == NULL) {
+		if (strcmp(m_jetskiPlane.m_name.GetData(), "")) {
+			if ((m_jetskiFront = ReadNamedTexture(p_storage)) == NULL) {
 				return FAILURE;
 			}
 
-			m_jetskiWindshield = ReadNamedTexture(p_file);
-			if (m_jetskiWindshield == NULL) {
-				return FAILURE;
-			}
-		}
-
-		if (m_dunebuggyPlane.IsPresent()) {
-			m_dunebuggyFront = ReadNamedTexture(p_file);
-			if (m_dunebuggyFront == NULL) {
+			if ((m_jetskiWindshield = ReadNamedTexture(p_storage)) == NULL) {
 				return FAILURE;
 			}
 		}
 
-		if (m_racecarPlane.IsPresent()) {
-			m_racecarFront = ReadNamedTexture(p_file);
-			if (m_racecarFront == NULL) {
-				return FAILURE;
-			}
-
-			m_racecarBack = ReadNamedTexture(p_file);
-			if (m_racecarBack == NULL) {
-				return FAILURE;
-			}
-
-			m_racecarTail = ReadNamedTexture(p_file);
-			if (m_racecarTail == NULL) {
+		if (strcmp(m_dunebuggyPlane.m_name.GetData(), "")) {
+			if ((m_dunebuggyFront = ReadNamedTexture(p_storage)) == NULL) {
 				return FAILURE;
 			}
 		}
 
-		m_cptClickDialogue.ReadFromFile(p_file);
-		Read(p_file, &m_unk0x022);
+		if (strcmp(m_racecarPlane.m_name.GetData(), "")) {
+			if ((m_racecarFront = ReadNamedTexture(p_storage)) == NULL) {
+				return FAILURE;
+			}
+
+			if ((m_racecarBack = ReadNamedTexture(p_storage)) == NULL) {
+				return FAILURE;
+			}
+
+			if ((m_racecarTail = ReadNamedTexture(p_storage)) == NULL) {
+				return FAILURE;
+			}
+		}
+
+		p_storage->ReadS16(m_cptClickDialogue.m_nextIndex);
+		p_storage->ReadU8(m_unk0x022);
 	}
 
-	// TODO
 	return SUCCESS;
 }
 
@@ -1491,12 +1486,12 @@ void Act1State::StopCptClickDialogue()
 // FUNCTION: LEGO1 0x100346d0
 MxBool Act1State::Reset()
 {
-	m_motocyclePlane.Reset();
-	m_bikePlane.Reset();
-	m_skateboardPlane.Reset();
+	m_motocyclePlane.m_name = "";
+	m_bikePlane.m_name = "";
+	m_skateboardPlane.m_name = "";
 	m_unk0x022 = FALSE;
 
-	m_helicopterPlane.Reset();
+	m_helicopterPlane.m_name = "";
 	if (m_helicopterWindshield) {
 		delete m_helicopterWindshield;
 		m_helicopterWindshield = NULL;
@@ -1517,7 +1512,7 @@ MxBool Act1State::Reset()
 		m_helicopter = NULL;
 	}
 
-	m_jetskiPlane.Reset();
+	m_jetskiPlane.m_name = "";
 	if (m_jetskiFront) {
 		delete m_jetskiFront;
 		m_jetskiFront = NULL;
@@ -1533,7 +1528,7 @@ MxBool Act1State::Reset()
 		m_jetski = NULL;
 	}
 
-	m_dunebuggyPlane.Reset();
+	m_dunebuggyPlane.m_name = "";
 	if (m_dunebuggyFront) {
 		delete m_dunebuggyFront;
 		m_dunebuggyFront = NULL;
@@ -1544,7 +1539,7 @@ MxBool Act1State::Reset()
 		m_dunebuggy = NULL;
 	}
 
-	m_racecarPlane.Reset();
+	m_racecarPlane.m_name = "";
 	if (m_racecarFront) {
 		delete m_racecarFront;
 		m_racecarFront = NULL;

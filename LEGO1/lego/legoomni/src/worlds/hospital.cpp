@@ -694,25 +694,26 @@ HospitalState::HospitalState()
 }
 
 // FUNCTION: LEGO1 0x10076530
-MxResult HospitalState::Serialize(LegoFile* p_file)
+// FUNCTION: BETA10 0x1002db26
+MxResult HospitalState::Serialize(LegoStorage* p_storage)
 {
-	LegoState::Serialize(p_file);
+	LegoState::Serialize(p_storage);
 
-	if (p_file->IsWriteMode()) {
-		Write(p_file, m_unk0x0c);
-		Write(p_file, m_unk0x0e);
-		Write(p_file, m_unk0x10);
-		Write(p_file, m_unk0x12);
-		Write(p_file, m_unk0x14);
-		Write(p_file, m_unk0x16);
+	if (p_storage->IsWriteMode()) {
+		p_storage->WriteS16(m_unk0x0c);
+		p_storage->WriteS16(m_unk0x0e);
+		p_storage->WriteS16(m_unk0x10);
+		p_storage->WriteS16(m_unk0x12);
+		p_storage->WriteS16(m_unk0x14);
+		p_storage->WriteS16(m_unk0x16);
 	}
-	else if (p_file->IsReadMode()) {
-		Read(p_file, &m_unk0x0c);
-		Read(p_file, &m_unk0x0e);
-		Read(p_file, &m_unk0x10);
-		Read(p_file, &m_unk0x12);
-		Read(p_file, &m_unk0x14);
-		Read(p_file, &m_unk0x16);
+	else if (p_storage->IsReadMode()) {
+		p_storage->ReadS16(m_unk0x0c);
+		p_storage->ReadS16(m_unk0x0e);
+		p_storage->ReadS16(m_unk0x10);
+		p_storage->ReadS16(m_unk0x12);
+		p_storage->ReadS16(m_unk0x14);
+		p_storage->ReadS16(m_unk0x16);
 	}
 
 	return SUCCESS;

@@ -39,17 +39,20 @@ public:
 		MxS16 GetHighScore() { return m_score; }
 
 		// FUNCTION: BETA10 0x100c96f0
-		MxResult Serialize(LegoFile* p_file)
+		MxResult Serialize(LegoStorage* p_storage)
 		{
-			if (p_file->IsReadMode()) {
-				Read(p_file, &m_id);
-				Read(p_file, &m_unk0x02);
-				Read(p_file, &m_score);
+			if (p_storage->IsReadMode()) {
+				p_storage->ReadU8(m_id);
+				p_storage->ReadS16(m_unk0x02);
+				p_storage->ReadS16(m_score);
 			}
-			else if (p_file->IsWriteMode()) {
-				Write(p_file, m_id);
-				Write(p_file, m_unk0x02);
-				Write(p_file, m_score);
+			else if (p_storage->IsWriteMode()) {
+				p_storage->WriteU8(m_id);
+				p_storage->WriteS16(m_unk0x02);
+				p_storage->WriteS16(m_score);
+			}
+			else {
+				return FAILURE;
 			}
 
 			return SUCCESS;
@@ -79,7 +82,7 @@ public:
 		return !strcmp(p_name, RaceState::ClassName()) || LegoState::IsA(p_name);
 	}
 
-	MxResult Serialize(LegoFile* p_file) override; // vtable+0x1c
+	MxResult Serialize(LegoStorage* p_storage) override; // vtable+0x1c
 
 	Entry* GetState(MxU8 p_id);
 

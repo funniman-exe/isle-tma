@@ -336,15 +336,13 @@ function(add_lego_libraries NAME)
     LEGO1/lego/legoomni/src/paths/legopathactor.cpp
     LEGO1/lego/legoomni/src/common/legobuildingmanager.cpp
     LEGO1/lego/legoomni/src/worlds/isle.cpp
-    LEGO1/lego/legoomni/src/actors/ambulance.cpp
-    LEGO1/lego/legoomni/src/actors/pizza.cpp
     LEGO1/lego/legoomni/src/actors/motorcycle.cpp
-    LEGO1/lego/legoomni/src/actors/act3ammo.cpp
-    LEGO1/lego/legoomni/src/audio/legocachesoundmanager.cpp
+    LEGO1/lego/legoomni/src/actors/ambulance.cpp
     LEGO1/lego/legoomni/src/worlds/infocenterdoor.cpp
+    LEGO1/lego/legoomni/src/common/legovariables.cpp
+    LEGO1/lego/legoomni/src/actors/pizza.cpp
     LEGO1/lego/legoomni/src/common/legogamestate.cpp
-    LEGO1/lego/legoomni/src/common/legobackgroundcolor.cpp
-    LEGO1/lego/legoomni/src/common/legofullscreenmovie.cpp
+    LEGO1/lego/legoomni/src/audio/legocachesoundmanager.cpp
     LEGO1/lego/legoomni/src/common/legoutils.cpp
     LEGO1/lego/legoomni/src/actors/act3actors.cpp
     LEGO1/lego/legoomni/src/control/legometerpresenter.cpp
@@ -353,7 +351,6 @@ function(add_lego_libraries NAME)
     LEGO1/lego/legoomni/src/paths/legopathpresenter.cpp
     LEGO1/lego/legoomni/src/common/legophoneme.cpp
     LEGO1/lego/legoomni/src/paths/legopathcontroller.cpp
-    LEGO1/lego/legoomni/src/entity/legojetskiraceactor.cpp
     LEGO1/lego/legoomni/src/audio/lego3dwavepresenter.cpp
     LEGO1/lego/legoomni/src/common/legoanimmmpresenter.cpp
     LEGO1/lego/legoomni/src/common/mxtransitionmanager.cpp
@@ -362,12 +359,13 @@ function(add_lego_libraries NAME)
     LEGO1/lego/legoomni/src/video/legophonemepresenter.cpp
     LEGO1/lego/legoomni/src/video/legotexturepresenter.cpp
     LEGO1/lego/legoomni/src/worlds/legoact2.cpp
-    LEGO1/lego/legoomni/src/common/legovariables.cpp
     LEGO1/lego/legoomni/src/main/scripts.cpp
     LEGO1/lego/legoomni/src/entity/legoentitypresenter.cpp
+    LEGO1/lego/legoomni/src/actors/act3ammo.cpp
     LEGO1/lego/legoomni/src/entity/legonavcontroller.cpp
     LEGO1/lego/legoomni/src/paths/legopathboundary.cpp
     LEGO1/lego/legoomni/src/main/legomain.cpp
+    LEGO1/lego/legoomni/src/entity/legojetskiraceactor.cpp
     LEGO1/lego/legoomni/src/input/legoinputmanager.cpp
     LEGO1/lego/legoomni/src/race/legoracemap.cpp
     LEGO1/lego/legoomni/src/worlds/jukebox.cpp
