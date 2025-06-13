@@ -103,7 +103,7 @@ MxResult Isle::Create(MxDSAction& p_dsAction)
 			GameState()->StopArea(LegoGameState::e_act2main);
 			break;
 		case LegoGameState::e_act3:
-			GameState()->StopArea(LegoGameState::e_act2main); // Looks like a bug
+			GameState()->StopArea(LegoGameState::e_act3script); // Looks like a bug
 			break;
 		case LegoGameState::e_actNotFound:
 			m_destLocation = LegoGameState::e_infomain;

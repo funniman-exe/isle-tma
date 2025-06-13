@@ -57,7 +57,7 @@ In order to run TMA, you must first configure the `diskpath` environment variabl
 
 The registry keys can be created in (usually found in `HKEY_LOCAL_MACHINE\Software\ActionSoft\LEGO Island TMA` on 32-bit operating systems and `HKEY_LOCAL_MACHINE\Software\Wow6432Node\ActionSoft\LEGO Island TMA` on 64-bit operating systems), and should point to the location where the `TMA_LAUNCHER.EXE`, `B_TMA.DLL`, and LEGO files/folders are stored (by default, this is the build folder). As long as you
 
-The build folder contains a copy of `d3drm.dll`, `D3D8.dll`, `D3DImm.dll`, `DDraw.dll`, and `dgVoodoo.conf` files, DO NOT REMOVE ANY OF THEM.
+The build folder contains a copy of `d3drm.dll`, `D3D8.dll`, `D3D9.dll`, `D3DImm.dll`, `DDraw.dll`, and `dgVoodoo.conf` files, DO NOT REMOVE ANY OF THEM.
 
 NOTE: Due to Github size limitations, and the fact this is a repo just for me to keep mirrored across devices, this repo does not include anything within the Lego folder. For the time being, access to the Lego folder cannot be requested, but may be able to in the future.
 
@@ -68,4 +68,4 @@ NOTE: Due to Github size limitations, and the fact this is a repo just for me to
 `B_TMA.DLL` - The primary dll, containing all game logic - the equivalant to `LEGO1.DLL`
 
 `CONFIGURE.EXE` - Primary configuration application, contains some options - the equivalant to `CONFIG.EXE`
-                For more advanced configurations, you will need to acquire `dgVoodooSetup.exe`, and place it in the same folder as `dgVoodoo.conf`
+                For more advanced configurations, you will need to acquire `dgVoodooCpl.exe`, and place it in the same folder as `dgVoodoo.conf`

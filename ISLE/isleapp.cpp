@@ -361,7 +361,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// sample for MSVC600. It's quite possible Mindscape derived this app from that example since they no longer had the
 	// luxury of the MFC AppWizard which we know they used for the frontend used during development (ISLEMFC.EXE,
 	// MAIN.EXE, et al.)
-	LoadAcceleratorsA(hInstance, "AppAccel");
+	// LoadAcceleratorsA(hInstance, "AppAccel");
 
 	MSG msg;
 
@@ -443,7 +443,7 @@ BOOL StartDirectSound()
 // FUNCTION: ISLE 0x401d20
 LRESULT WINAPI WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	NotificationId type;
+	NotificationId type = (NotificationId) 0;
 	unsigned char keyCode = 0;
 
 	if (!g_isle) {
@@ -590,7 +590,7 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return DefWindowProcA(hWnd, uMsg, wParam, lParam);
 	}
 
-	if (g_isle) {
+	if (g_isle && type != 0) {
 		if (InputManager()) {
 			InputManager()->QueueEvent(type, wParam, LOWORD(lParam), HIWORD(lParam), keyCode);
 		}

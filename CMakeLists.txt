@@ -10,6 +10,34 @@ include(CMakeDependentOption)
 include(CMakePushCheckState)
 include("${CMAKE_CURRENT_LIST_DIR}/cmake/reccmp.cmake")
 
+if(WIN32)
+  set(plat_suffix "_WIN")
+elseif(APPLE)
+  set(plat_suffix "_MAC")
+elseif(UNIX)
+  set(plat_suffix "_UNIX")
+else()
+  set(plat_suffix "")
+endif()
+
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+  set(plat_bits "64")
+# uncomment to specify if build is 32 bit
+elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
+  set(plat_bits "32")
+else()
+  set(plat_bits "")
+endif()
+
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+  set(build_suffix "_DBG")
+# uncomment to specify if build is release build
+#elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+#  set(build_suffix "_REL")
+else()
+  set(build_suffix "")
+endif()
+
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 option(ENABLE_CLANG_TIDY "Enable clang-tidy")
 if (ENABLE_CLANG_TIDY)
@@ -21,7 +49,7 @@ endif()
 math(EXPR bits "8 * ${CMAKE_SIZEOF_VOID_P}")
 message(STATUS "Building ${bits}-bit LEGO Island")
 if (NOT bits EQUAL 32)
-  message(WARNING "Only 32-bit executables are supported")
+  message(FATAL_ERROR "Only 32-bit executables are supported")
 endif()
 
 set(MSVC_FOR_DECOMP FALSE)
@@ -60,7 +88,7 @@ message(STATUS "MSVC for decompilation: ${MSVC_FOR_DECOMP}")
 option(ISLE_WERROR "Treat warnings as errors" OFF)
 option(ISLE_BUILD_APP "Build TMA_LAUNCHER.EXE application" ON)
 cmake_dependent_option(ISLE_BUILD_CONFIG "Build CONFIGURE.EXE application" ON "NOT MINGW" OFF)
-option(ISLE_USE_SMARTHEAP "Build B_TMA.DLL with SmartHeap" ${MSVC_FOR_DECOMP})
+option(ISLE_USE_SMARTHEAP "Build B_TMA.DLL with SmartHeap" OFF)
 option(ISLE_USE_DX5 "Build with internal DirectX 5 SDK" ON)
 option(ISLE_DECOMP_ASSERT "Assert struct size" ${MSVC_FOR_DECOMP})
 cmake_dependent_option(ISLE_USE_DX5_LIBS "Build with internal DirectX 5 SDK Libraries" ON ISLE_USE_DX5 OFF)
@@ -209,7 +237,8 @@ function(add_lego_libraries NAME)
   target_include_directories(3dmanager${ARG_SUFFIX} PRIVATE "${PROJECT_SOURCE_DIR}/LEGO1" "${PROJECT_SOURCE_DIR}/util")
   target_link_libraries(3dmanager${ARG_SUFFIX} PRIVATE Vec::Vec)
 
-  add_library(omni${ARG_SUFFIX} STATIC
+  # add_library(omni${ARG_SUFFIX} STATIC
+  add_library(omni${ARG_SUFFIX} SHARED
     LEGO1/omni/src/notify/mxnotificationmanager.cpp
     LEGO1/omni/src/common/mxdebug.cpp
     LEGO1/omni/src/common/mxmisc.cpp
@@ -286,11 +315,38 @@ function(add_lego_libraries NAME)
     LEGO1/omni/src/action/mxdsstreamingaction.cpp
     LEGO1/omni/src/stream/mxramstreamprovider.cpp
     LEGO1/omni/src/stream/mxdiskstreamprovider.cpp
+    LEGO1/define.cpp
+    # LEGO1/main.cpp
+    LEGO1/res/omni.rc
   )
   list(APPEND list_targets omni${ARG_SUFFIX})
-  set_property(TARGET omni${ARG_SUFFIX} PROPERTY ARCHIVE_OUTPUT_NAME "omni$<$<CONFIG:Debug>:d>${ARG_SUFFIX}")
+  # set_property(TARGET omni${ARG_SUFFIX} PROPERTY ARCHIVE_OUTPUT_NAME "omni$<$<CONFIG:Debug>:d>${ARG_SUFFIX}")
+  set_property(TARGET omni${ARG_SUFFIX} PROPERTY OUTPUT_NAME "B_OMNI${plat_suffix}${plat_bits}${build_suffix}")
+  set_property(TARGET omni${ARG_SUFFIX} PROPERTY PREFIX "${ARG_DLL_PREFIX}")
+  set_property(TARGET omni${ARG_SUFFIX} PROPERTY SUFFIX "${ARG_DLL_SUFFIX}")
   target_include_directories(omni${ARG_SUFFIX} PRIVATE "${PROJECT_SOURCE_DIR}/LEGO1/omni/include" "${PROJECT_SOURCE_DIR}/LEGO1" "${PROJECT_SOURCE_DIR}/util")
-  target_link_libraries(omni${ARG_SUFFIX} PRIVATE dsound winmm Smacker::Smacker)
+  target_link_libraries(omni${ARG_SUFFIX} PRIVATE 
+    dsound
+    winmm
+    Smacker::Smacker
+    ddraw
+    dinput
+    geom${ARG_SUFFIX}
+    mxdirectx${ARG_SUFFIX}
+    tglrl${ARG_SUFFIX}
+    shape${ARG_SUFFIX}
+    dxguid
+  )
+
+  if (ISLE_USE_SMARTHEAP)
+    target_link_libraries(omni${ARG_SUFFIX} PRIVATE SmartHeap::SmartHeap)
+  endif()
+
+  if (MSVC_FOR_DECOMP)
+    set_property(TARGET omni${ARG_SUFFIX} PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+  endif()
+
+  target_sources(omni${ARG_SUFFIX} PRIVATE LEGO1/Omni.def)
 
   add_library(${NAME} SHARED
     LEGO1/lego/legoomni/src/worlds/score.cpp
@@ -401,13 +457,13 @@ function(add_lego_libraries NAME)
     LEGO1/lego/legoomni/src/worlds/historybook.cpp
     LEGO1/lego/legoomni/src/common/legocharactermanager.cpp
     LEGO1/lego/legoomni/src/actors/jukeboxentity.cpp
-    LEGO1/main.cpp
+    # LEGO1/main.cpp
     LEGO1/res/lego1.rc
     # We need to get rid of / refactor the below units into existing/other ones
     LEGO1/lego/legoomni/src/entity/legolocations.cpp
     LEGO1/lego/legoomni/src/notify/legoeventnotificationparam.cpp
     LEGO1/lego/legoomni/src/common/legoactors.cpp
-    LEGO1/define.cpp
+    # LEGO1/define.cpp
     LEGO1/lego/legoomni/src/common/legoplants.cpp
   )
   list(APPEND list_targets ${NAME})
@@ -433,16 +489,16 @@ function(add_lego_libraries NAME)
   target_link_libraries(${NAME} PRIVATE
     dinput
     misc${ARG_SUFFIX}
-    geom${ARG_SUFFIX}
-    mxdirectx${ARG_SUFFIX}
+    # geom${ARG_SUFFIX}
+    # mxdirectx${ARG_SUFFIX}
     anim${ARG_SUFFIX}
-    tglrl${ARG_SUFFIX}
+    # tglrl${ARG_SUFFIX}
     realtime${ARG_SUFFIX}
     viewmanager${ARG_SUFFIX}
     roi${ARG_SUFFIX}
     3dmanager${ARG_SUFFIX}
     omni${ARG_SUFFIX}
-    shape${ARG_SUFFIX}
+    # shape${ARG_SUFFIX}
     Vec::Vec
     dxguid
   )
@@ -469,7 +525,7 @@ endif()
 if(ISLE_BUILD_LEGO1)
   add_lego_libraries(lego1
     LINK_LIBRARIES ${lego1_link_libraries}
-    DLL_OUTPUT_NAME "B_TMA"
+    DLL_OUTPUT_NAME "B_TMA${plat_suffix}${plat_bits}${build_suffix}"
     DLL_PREFIX ""
     DLL_SUFFIX ".DLL"
     OUT_TARGETS lego1_targets
@@ -480,7 +536,7 @@ endif()
 if(ISLE_BUILD_BETA10)
   add_lego_libraries(beta10
     SUFFIX "-beta10"
-    DLL_OUTPUT_NAME "X10_TMA"
+    DLL_OUTPUT_NAME "X10_TMA${plat_suffix}${plat_bits}${build_suffix}"
     DLL_PREFIX ""
     DLL_SUFFIX ".DLL"
     OUT_TARGETS beta10_targets
@@ -506,15 +562,16 @@ if (ISLE_BUILD_APP)
   endif()
 
   # Link DSOUND, WINMM, and LEGO1
-  target_link_libraries(isle PRIVATE dsound winmm)
+  target_link_libraries(isle PRIVATE dsound winmm omni)
   if(ISLE_BUILD_LEGO1)
+    # target_link_libraries(isle PRIVATE lego1)
     target_link_libraries(isle PRIVATE lego1)
   else()
     target_link_libraries(isle PRIVATE beta10)
   endif()
 
   # Make sure filenames are ALL CAPS
-  set_property(TARGET isle PROPERTY OUTPUT_NAME TMA_LAUNCHER)
+  set_property(TARGET isle PROPERTY OUTPUT_NAME "TMA_LAUNCHER${plat_suffix}${plat_bits}${build_suffix}")
   set_property(TARGET isle PROPERTY SUFFIX ".EXE")
 endif()
 
@@ -538,7 +595,7 @@ if (ISLE_BUILD_CONFIG)
   endif()
   target_compile_definitions(config PRIVATE DIRECT3D_VERSION=0x500)
   target_link_libraries(config PRIVATE ddraw dxguid)
-  set_property(TARGET config PROPERTY OUTPUT_NAME "CONFIGURE")
+  set_property(TARGET config PROPERTY OUTPUT_NAME "CONFIGURE${plat_suffix}${plat_bits}${build_suffix}")
   set_property(TARGET config PROPERTY SUFFIX ".EXE")
   set_property(TARGET config PROPERTY MSVC_RUNTIME_LIBRARY MultiThreaded$<$<CONFIG:Debug>:Debug>DLL)
 endif()
@@ -628,6 +685,11 @@ if (MSVC_FOR_DECOMP)
       set_property(GLOBAL APPEND PROPERTY JOB_POOLS "msvc_isle=1")
       set_property(TARGET isle PROPERTY JOB_POOL_COMPILE "msvc_isle")
       set_property(TARGET isle PROPERTY JOB_POOL_LINK "msvc_isle")
+    endif()
+    if (TARGET omni)
+      set_property(GLOBAL APPEND PROPERTY JOB_POOLS "msvc_omni=1")
+      set_property(TARGET omni PROPERTY JOB_POOL_COMPILE "msvc_omni")
+      set_property(TARGET omni PROPERTY JOB_POOL_LINK "msvc_omni")
     endif()
     if (TARGET config)
       set_property(GLOBAL APPEND PROPERTY JOB_POOLS "msvc_config=1")

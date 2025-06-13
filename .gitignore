@@ -24,8 +24,10 @@ tools/ghidra_scripts/import.log
 # By convention we put the retail binaries into ./legobin.
 # These entries are kept for now since that convention has not always been around.
 build/*.EXE
-build/B_TMA.DLL
-build/X10_TMA.DLL
+build/B_TMA_*.DLL
+build/X10_TMA_*.DLL
+build/B_OMNI_*.DLL
+build/*.ilk
 build/*.pdb
 build/*.lib
 build/*.exp
@@ -33,6 +35,7 @@ setupPaths.bat
 build/CMakeFiles/
 build/SAV/
 
+build/.cmake
 build/CMakeCache.txt
 build/Makefile
 build/cmake_install.cmake
