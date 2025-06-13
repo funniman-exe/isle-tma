@@ -94,6 +94,8 @@ option(ISLE_DECOMP_ASSERT "Assert struct size" ${MSVC_FOR_DECOMP})
 cmake_dependent_option(ISLE_USE_DX5_LIBS "Build with internal DirectX 5 SDK Libraries" ON ISLE_USE_DX5 OFF)
 option(ISLE_BUILD_LEGO1 "Build B_TMA.DLL library" ON)
 option(ISLE_BUILD_BETA10 "Build X10_TMA.DLL library" OFF)
+option(ISLE_INCLUDE_ENTROPY "Build with entropy.h" OFF)
+option(ISLE_ENTROPY_FILENAME "Entropy header filename" "entropy.h")
 
 if(NOT (ISLE_BUILD_LEGO1 OR ISLE_BUILD_BETA10))
   message(FATAL_ERROR "ISLE_BUILD_LEGO1 AND ISLE_BUILD_BETA10 cannot be both disabled")
@@ -186,7 +188,7 @@ function(add_lego_libraries NAME)
   add_library(geom${ARG_SUFFIX} STATIC
     LEGO1/lego/sources/geom/legoedge.cpp
     LEGO1/lego/sources/geom/legoweedge.cpp
-    LEGO1/lego/sources/geom/legounkown100db7f4.cpp
+    LEGO1/lego/sources/geom/legoorientededge.cpp
     LEGO1/lego/sources/geom/legowegedge.cpp
   )
   list(APPEND list_targets geom${ARG_SUFFIX})
@@ -293,7 +295,6 @@ function(add_lego_libraries NAME)
     LEGO1/omni/src/audio/mxloopingmidipresenter.cpp
     LEGO1/omni/src/event/mxeventpresenter.cpp
     LEGO1/omni/src/stream/mxstreamchunk.cpp
-    LEGO1/omni/src/video/mxregioncursor.cpp
     LEGO1/omni/src/video/mxregion.cpp
     LEGO1/omni/src/video/mxsmk.cpp
     LEGO1/omni/src/stream/mxramstreamcontroller.cpp
@@ -316,7 +317,7 @@ function(add_lego_libraries NAME)
     LEGO1/omni/src/stream/mxramstreamprovider.cpp
     LEGO1/omni/src/stream/mxdiskstreamprovider.cpp
     LEGO1/define.cpp
-    # LEGO1/main.cpp
+    LEGO1/main.cpp
     LEGO1/res/omni.rc
   )
   list(APPEND list_targets omni${ARG_SUFFIX})
@@ -421,14 +422,12 @@ function(add_lego_libraries NAME)
     LEGO1/lego/legoomni/src/entity/legonavcontroller.cpp
     LEGO1/lego/legoomni/src/paths/legopathboundary.cpp
     LEGO1/lego/legoomni/src/main/legomain.cpp
-    LEGO1/lego/legoomni/src/entity/legojetskiraceactor.cpp
     LEGO1/lego/legoomni/src/input/legoinputmanager.cpp
     LEGO1/lego/legoomni/src/race/legoracemap.cpp
     LEGO1/lego/legoomni/src/worlds/jukebox.cpp
     LEGO1/lego/legoomni/src/video/legoflctexturepresenter.cpp
     LEGO1/lego/legoomni/src/worlds/police.cpp
     LEGO1/lego/legoomni/src/common/legoanimationmanager.cpp
-    LEGO1/lego/legoomni/src/build/legocarbuildpresenter.cpp
     LEGO1/lego/legoomni/src/entity/legopovcontroller.cpp
     LEGO1/lego/legoomni/src/common/legotextureinfo.cpp
     LEGO1/lego/legoomni/src/actors/doors.cpp
@@ -441,30 +440,32 @@ function(add_lego_libraries NAME)
     LEGO1/lego/legoomni/src/worlds/infocenter.cpp
     LEGO1/lego/legoomni/src/race/raceskel.cpp
     LEGO1/lego/legoomni/src/worlds/act3.cpp
-    LEGO1/lego/legoomni/src/video/legomodelpresenter.cpp
     LEGO1/lego/legoomni/src/common/mxcompositemediapresenter.cpp
     LEGO1/lego/legoomni/src/worlds/hospital.cpp
     LEGO1/lego/legoomni/src/actors/bike.cpp
     LEGO1/lego/legoomni/src/entity/legoactorpresenter.cpp
     LEGO1/lego/legoomni/src/worlds/registrationbook.cpp
+    LEGO1/lego/legoomni/src/build/legocarbuildpresenter.cpp
     LEGO1/lego/legoomni/src/video/legopalettepresenter.cpp
     LEGO1/lego/legoomni/src/entity/act2brick.cpp
     LEGO1/lego/legoomni/src/video/legovideomanager.cpp
     LEGO1/lego/legoomni/src/video/legopartpresenter.cpp
     LEGO1/lego/legoomni/src/actors/jetski.cpp
     LEGO1/lego/legoomni/src/audio/mxbackgroundaudiomanager.cpp
+    LEGO1/lego/legoomni/src/video/legomodelpresenter.cpp
     LEGO1/lego/legoomni/src/race/legoracespecial.cpp
     LEGO1/lego/legoomni/src/worlds/historybook.cpp
     LEGO1/lego/legoomni/src/common/legocharactermanager.cpp
     LEGO1/lego/legoomni/src/actors/jukeboxentity.cpp
-    # LEGO1/main.cpp
+    LEGO1/main.cpp
     LEGO1/res/lego1.rc
     # We need to get rid of / refactor the below units into existing/other ones
+    LEGO1/main.cpp
     LEGO1/lego/legoomni/src/entity/legolocations.cpp
-    LEGO1/lego/legoomni/src/notify/legoeventnotificationparam.cpp
     LEGO1/lego/legoomni/src/common/legoactors.cpp
     # LEGO1/define.cpp
     LEGO1/lego/legoomni/src/common/legoplants.cpp
+    LEGO1/define.cpp
   )
   list(APPEND list_targets ${NAME})
 
@@ -487,6 +488,7 @@ function(add_lego_libraries NAME)
 
   # Link libraries
   target_link_libraries(${NAME} PRIVATE
+    ${ARG_LINK_LIBRARIES}
     dinput
     misc${ARG_SUFFIX}
     # geom${ARG_SUFFIX}
@@ -519,7 +521,7 @@ endfunction()
 
 set(lego1_link_libraries )
 if (ISLE_USE_SMARTHEAP)
-  list(APPEND lego1_link_libraries SmartHeap::SmartHeap)
+  list(APPEND lego1_link_libraries SmartHeap::SmartHeap libcmt)
 endif()
 
 if(ISLE_BUILD_LEGO1)
@@ -645,6 +647,19 @@ if (MSVC_FOR_DECOMP)
   if (ISLE_BUILD_APP)
     target_link_options(isle PRIVATE "/OPT:REF")
     set_property(TARGET isle ${lego1_targets} PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+  endif()
+
+  if (ISLE_INCLUDE_ENTROPY)
+    message(STATUS "Using entropy file: ${ISLE_ENTROPY_FILENAME}")
+    foreach(tgt IN LISTS lego1_targets beta10_targets)
+      target_compile_options(${tgt} PRIVATE /FI${PROJECT_SOURCE_DIR}/${ISLE_ENTROPY_FILENAME})
+    endforeach()
+    if (TARGET isle)
+      target_compile_options(isle PRIVATE /FI${PROJECT_SOURCE_DIR}/${ISLE_ENTROPY_FILENAME})
+    endif()
+    if (TARGET config)
+      target_compile_options(config PRIVATE /FI${PROJECT_SOURCE_DIR}/${ISLE_ENTROPY_FILENAME})
+    endif()
   endif()
 
   if(TARGET lego1)

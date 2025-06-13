@@ -11,6 +11,7 @@
 
 DECOMP_SIZE_ASSERT(LegoControlManager, 0x60)
 DECOMP_SIZE_ASSERT(LegoControlManagerNotificationParam, 0x2c)
+DECOMP_SIZE_ASSERT(LegoEventNotificationParam, 0x20)
 
 // FUNCTION: LEGO1 0x10028520
 LegoControlManager::LegoControlManager()
@@ -57,7 +58,7 @@ void LegoControlManager::Unregister(MxCore* p_listener)
 // FUNCTION: LEGO1 0x10029210
 MxBool LegoControlManager::FUN_10029210(LegoEventNotificationParam& p_param, MxPresenter* p_presenter)
 {
-	if (m_presenterList != NULL && m_presenterList->GetCount() != 0) {
+	if (m_presenterList != NULL && m_presenterList->GetNumElements() != 0) {
 		m_unk0x14 = p_presenter;
 
 		if (p_param.GetNotification() == c_notificationButtonUp ||
@@ -143,12 +144,13 @@ void LegoControlManager::FUN_100293c0(MxU32 p_objectId, const char* p_atom, MxS1
 }
 
 // FUNCTION: LEGO1 0x100294e0
+// FUNCTION: BETA10 0x1007c92f
 MxControlPresenter* LegoControlManager::FUN_100294e0(MxS32 p_x, MxS32 p_y)
 {
 	if (m_presenterList) {
 		MxPresenterListCursor cursor(m_presenterList);
 		MxPresenter* control;
-		MxVideoPresenter* presenter = (MxVideoPresenter*) VideoManager()->GetPresenterAt(p_x, p_y);
+		MxPresenter* presenter = VideoManager()->GetPresenterAt(p_x, p_y);
 
 		if (presenter) {
 			while (cursor.Next(control)) {
@@ -184,7 +186,7 @@ MxBool LegoControlManager::FUN_10029630()
 
 	while (cursor.Next(presenter)) {
 		if (((MxControlPresenter*) presenter)->FUN_10044480(&m_event, m_unk0x14)) {
-			g_unk0x100f31b0 = m_event.GetClickedObjectId();
+			g_unk0x100f31b0 = m_event.m_clickedObjectId;
 			g_unk0x100f31b4 = m_event.GetClickedAtom();
 			FUN_100292e0();
 			m_unk0x08 = 1;

@@ -205,13 +205,8 @@ MxLong Isle::HandleEndAction(MxEndActionNotificationParam& p_param)
 		result = m_radio.Notify(p_param);
 
 		if (result == 0) {
-			MxDSAction* action = p_param.GetAction();
-
-			// TODO: Should be signed, but worsens match
-			MxU32 script;
-
-			if (action->GetAtomId() == *g_jukeboxScript) {
-				script = action->GetObjectId();
+			if (p_param.GetAction()->GetAtomId() == *g_jukeboxScript) {
+				MxS32 script = p_param.GetAction()->GetObjectId();
 
 				if (script >= JukeboxScript::c_JBMusic1 && script <= JukeboxScript::c_JBMusic6) {
 					m_jukebox->StopAction((JukeboxScript::Script) script);
@@ -219,14 +214,14 @@ MxLong Isle::HandleEndAction(MxEndActionNotificationParam& p_param)
 				}
 			}
 			else if (m_act1state->m_planeActive) {
-				script = action->GetObjectId();
+				MxS32 script = p_param.GetAction()->GetObjectId();
 
 				if (script >= IsleScript::c_nic002pr_RunAnim && script <= IsleScript::c_nic004pr_RunAnim) {
 					m_act1state->m_planeActive = FALSE;
 				}
 			}
 			else {
-				script = action->GetObjectId();
+				MxS32 script = p_param.GetAction()->GetObjectId();
 
 				if (script == IsleScript::c_Avo917In_PlayWav ||
 					(script >= IsleScript::c_Avo900Ps_PlayWav && script <= IsleScript::c_Avo907Ps_PlayWav)) {
@@ -289,10 +284,10 @@ void Isle::ReadyWorld()
 // FUNCTION: LEGO1 0x10031030
 MxLong Isle::HandleControl(LegoControlManagerNotificationParam& p_param)
 {
-	if (p_param.GetUnknown0x28() == 1) {
+	if (p_param.m_unk0x28 == 1) {
 		MxDSAction action;
 
-		switch (p_param.GetClickedObjectId()) {
+		switch (p_param.m_clickedObjectId) {
 		case IsleScript::c_ElevRide_Info_Ctl:
 			m_act1state->m_unk0x018 = 2;
 
@@ -508,7 +503,7 @@ MxLong Isle::HandlePathStruct(LegoPathStructNotificationParam& p_param)
 			break;
 		case 0x131:
 			if (m_act1state->m_unk0x018 != 10) {
-				AnimationManager()->FUN_10064740(FALSE);
+				AnimationManager()->FUN_10064740(NULL);
 			}
 			result = 1;
 			break;
@@ -548,11 +543,12 @@ void Isle::Enable(MxBool p_enable)
 		m_act1state->PlaceActors();
 
 		if (UserActor() != NULL && UserActor()->GetActorId() != LegoActor::c_none) {
-			// TODO: Match, most likely an inline function
-			MxS32 targetEntityId = (UserActor()->GetActorId() == 1) + 250;
+			IsleScript::Script noPizzaSign = UserActor()->GetActorId() == LegoActor::c_pepper
+												 ? IsleScript::c_NoPizaz_Texture
+												 : IsleScript::c_NoPizza_Texture;
 
-			if (targetEntityId != -1) {
-				InvokeAction(Extra::e_start, *g_isleScript, targetEntityId, NULL);
+			if (noPizzaSign != IsleScript::c_noneIsle) {
+				InvokeAction(Extra::e_start, *g_isleScript, noPizzaSign, NULL);
 			}
 		}
 

@@ -6,8 +6,8 @@
 #include "mxdsfile.h"
 #include "mxdsmultiaction.h"
 #include "mxdsobject.h"
+#include "mxgeometry.h"
 #include "mxpresenterlist.h"
-#include "mxrect32.h"
 
 #include <assert.h>
 
@@ -15,6 +15,7 @@
 void (*g_omniUserMessage)(const char*, MxS32) = NULL;
 
 // FUNCTION: LEGO1 0x100b6e10
+// FUNCTION: BETA10 0x10136970
 MxBool GetRectIntersection(
 	MxS32 p_rect1Width,
 	MxS32 p_rect1Height,
@@ -35,22 +36,22 @@ MxBool GetRectIntersection(
 	MxRect32 rect2(MxPoint32(0, 0), MxSize32(p_rect2Width, p_rect2Height));
 
 	MxRect32 rect(0, 0, *p_width, *p_height);
-	rect.AddPoint(rect1Origin);
+	rect += rect1Origin;
 
-	if (!rect.IntersectsWith(rect1)) {
+	if (!rect.Intersects(rect1)) {
 		return FALSE;
 	}
 
-	rect.Intersect(rect1);
-	rect.SubtractPoint(rect1Origin);
-	rect.AddPoint(rect2Origin);
+	rect &= rect1;
+	rect -= rect1Origin;
+	rect += rect2Origin;
 
-	if (!rect.IntersectsWith(rect2)) {
+	if (!rect.Intersects(rect2)) {
 		return FALSE;
 	}
 
-	rect.Intersect(rect2);
-	rect.SubtractPoint(rect2Origin);
+	rect &= rect2;
+	rect -= rect2Origin;
 
 	*p_rect1Left += rect.GetLeft();
 	*p_rect1Top += rect.GetTop();
@@ -80,6 +81,7 @@ void MakeSourceName(char* p_output, const char* p_input)
 }
 
 // FUNCTION: LEGO1 0x100b7050
+// FUNCTION: BETA10 0x10136c19
 MxBool KeyValueStringParse(char* p_output, const char* p_command, const char* p_string)
 {
 	MxBool didMatch = FALSE;
@@ -91,7 +93,8 @@ MxBool KeyValueStringParse(char* p_output, const char* p_command, const char* p_
 	assert(string);
 	strcpy(string, p_string);
 
-	for (char* token = strtok(string, ", \t\r\n:"); token; token = strtok(NULL, ", \t\r\n:")) {
+	const char* delim = ", \t\r\n:";
+	for (char* token = strtok(string, delim); token; token = strtok(NULL, delim)) {
 		len -= (strlen(token) + 1);
 
 		if (strcmpi(token, p_command) == 0) {
@@ -115,6 +118,7 @@ MxBool KeyValueStringParse(char* p_output, const char* p_command, const char* p_
 }
 
 // FUNCTION: LEGO1 0x100b7170
+// FUNCTION: BETA10 0x10136e12
 MxBool ContainsPresenter(MxCompositePresenterList& p_presenterList, MxPresenter* p_presenter)
 {
 	for (MxCompositePresenterList::iterator it = p_presenterList.begin(); it != p_presenterList.end(); it++) {
@@ -145,9 +149,20 @@ void SetOmniUserMessage(void (*p_omniUserMessage)(const char*, MxS32))
 }
 
 // FUNCTION: LEGO1 0x100b7220
+// FUNCTION: BETA10 0x10136f37
 void FUN_100b7220(MxDSAction* p_action, MxU32 p_newFlags, MxBool p_setFlags)
 {
-	p_action->SetFlags(!p_setFlags ? p_action->GetFlags() & ~p_newFlags : p_action->GetFlags() | p_newFlags);
+	MxU32 oldFlags = p_action->GetFlags();
+	MxU32 newFlags;
+
+	if (p_setFlags) {
+		newFlags = oldFlags | p_newFlags;
+	}
+	else {
+		newFlags = oldFlags & ~p_newFlags;
+	}
+
+	p_action->SetFlags(newFlags);
 
 	if (p_action->IsA("MxDSMultiAction")) {
 		MxDSActionListCursor cursor(((MxDSMultiAction*) p_action)->GetActionList());

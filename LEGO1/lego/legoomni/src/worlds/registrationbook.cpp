@@ -32,6 +32,7 @@
 DECOMP_SIZE_ASSERT(RegistrationBook, 0x2d0)
 
 // GLOBAL: LEGO1 0x100d9924
+// GLOBAL: BETA10 0x101bfb3c
 const char* g_infoman = "infoman";
 
 // GLOBAL: LEGO1 0x100f7964
@@ -225,37 +226,42 @@ MxLong RegistrationBook::HandleKeyPress(MxU8 p_key)
 // FUNCTION: LEGO1 0x100774a0
 MxLong RegistrationBook::HandleControl(LegoControlManagerNotificationParam& p_param)
 {
-	MxS16 unk0x28 = p_param.GetUnknown0x28();
+	MxS16 buttonId = p_param.m_unk0x28;
 
-	if (unk0x28 >= 1 && unk0x28 <= 28) {
-		if (p_param.GetClickedObjectId() == RegbookScript::c_Alphabet_Ctl) {
-			if (unk0x28 == 28) {
+	if (buttonId >= 1 && buttonId <= 28) {
+		if (p_param.m_clickedObjectId == RegbookScript::c_Alphabet_Ctl) {
+			// buttonId:
+			// - [1, 26]: alphabet
+			// - 27: backspace
+			// - 28: go back to information center
+			if (buttonId == 28) {
 				DeleteObjects(&m_atomId, RegbookScript::c_iic006in_RunAnim, RegbookScript::c_iic008in_PlayWav);
 
 				if (GameState()->GetCurrentAct() == LegoGameState::e_act1) {
-					m_infocenterState->SetUnknown0x74(15);
+					m_infocenterState->m_unk0x74 = 15;
 				}
 				else {
-					m_infocenterState->SetUnknown0x74(2);
+					m_infocenterState->m_unk0x74 = 2;
 				}
 
 				TransitionManager()->StartTransition(MxTransitionManager::e_mosaic, 50, FALSE, FALSE);
 			}
 			else {
-				if (unk0x28 > 28) {
+				if (buttonId > 28) {
 					return 1;
 				}
 
-				HandleKeyPress(unk0x28 < 27 ? unk0x28 + 64 : 8);
+				HandleKeyPress(buttonId < 27 ? buttonId + 'A' - 1 : '\b');
 			}
 		}
 		else {
+			// Select another profile (buttonId is always 1)
 			InputManager()->DisableInputProcessing();
 			DeleteObjects(&m_atomId, RegbookScript::c_iic006in_RunAnim, RegbookScript::c_iic008in_PlayWav);
 
 			MxS16 i;
 			for (i = 0; i < 10; i++) {
-				if (m_checkmark[i]->GetAction()->GetObjectId() == p_param.GetClickedObjectId()) {
+				if (m_checkmark[i]->GetAction()->GetObjectId() == p_param.m_clickedObjectId) {
 					break;
 				}
 			}
@@ -268,6 +274,7 @@ MxLong RegistrationBook::HandleControl(LegoControlManagerNotificationParam& p_pa
 }
 
 // FUNCTION: LEGO1 0x100775c0
+// STUB: BETA10 0x100f32b2
 void RegistrationBook::FUN_100775c0(MxS16 p_playerIndex)
 {
 	if (m_infocenterState->HasRegistered()) {
@@ -316,7 +323,7 @@ void RegistrationBook::FUN_100775c0(MxS16 p_playerIndex)
 		break;
 	}
 
-	m_infocenterState->SetUnknown0x74(4);
+	m_infocenterState->m_unk0x74 = 4;
 	if (m_unk0x2b8 == 0 && !m_unk0x2c1) {
 		DeleteObjects(&m_atomId, RegbookScript::c_iic006in_RunAnim, RegbookScript::c_iic008in_PlayWav);
 		TransitionManager()->StartTransition(MxTransitionManager::e_mosaic, 50, FALSE, FALSE);
@@ -388,27 +395,41 @@ void RegistrationBook::FUN_100778c0()
 }
 
 // FUNCTION: LEGO1 0x10077cc0
+// FUNCTION: BETA10 0x100f3671
 void RegistrationBook::ReadyWorld()
 {
+	// This function is very fragile and appears to oscillate between two versions on small changes.
+	// This even happens for commenting out `assert()` calls, which shouldn't affect release builds at all.
+	// See https://github.com/isledecomp/isle/pull/1375 for a version that had 100 %.
+
+#ifndef BETA10
 	LegoGameState* gameState = GameState();
-	gameState->GetHistory()->WriteScoreHistory();
-	MxS16 i;
+	gameState->m_history.WriteScoreHistory();
+#endif
 
 	PlayMusic(JukeboxScript::c_InformationCenter_Music);
 
 	char letterBuffer[] = "A_Bitmap";
-	for (i = 0; i < 26; i++) {
-		m_alphabet[i] = (MxStillPresenter*) Find("MxStillPresenter", letterBuffer);
+	MxS16 i;
 
-		// We need to loop through the entire alphabet,
-		// so increment the first char of the bitmap name
-		letterBuffer[0]++;
+	for (i = 0; i < 26; i++) {
+		// TODO: This might be an inline function.
+		// See also `HistoryBook::ReadyWorld()`.
+		if (i < 26) {
+			m_alphabet[i] = (MxStillPresenter*) Find("MxStillPresenter", letterBuffer);
+			assert(m_alphabet[i]);
+
+			// We need to loop through the entire alphabet,
+			// so increment the first char of the bitmap name
+			letterBuffer[0]++;
+		}
 	}
 
 	// Now we have to do the checkmarks
 	char checkmarkBuffer[] = "Check0_Ctl";
 	for (i = 0; i < 10; i++) {
 		m_checkmark[i] = (MxControlPresenter*) Find("MxControlPresenter", checkmarkBuffer);
+		assert(m_checkmark[i]);
 
 		// Just like in the prior letter loop,
 		// we need to increment the fifth char
@@ -428,6 +449,7 @@ void RegistrationBook::ReadyWorld()
 				// Start building the player names using a two-dimensional array
 				m_name[i][j] = m_alphabet[players[i - 1].m_letters[j]]->Clone();
 
+				assert(m_name[i][j]);
 				// Enable the presenter to actually show the letter in the grid
 				m_name[i][j]->Enable(TRUE);
 
@@ -437,7 +459,15 @@ void RegistrationBook::ReadyWorld()
 		}
 	}
 
-	if (m_infocenterState->HasRegistered()) {
+#ifdef BETA10
+	InfocenterState* infocenterState = (InfocenterState*) GameState()->GetState("InfocenterState");
+	assert(infocenterState);
+
+	if (infocenterState->HasRegistered())
+#else
+	if (m_infocenterState->HasRegistered())
+#endif
+	{
 		PlayAction(RegbookScript::c_iic008in_PlayWav);
 
 		LegoROI* infoman = FindROI(g_infoman);
@@ -450,6 +480,7 @@ void RegistrationBook::ReadyWorld()
 	}
 }
 
+// FUNCTION: BETA10 0x100f3424
 inline void RegistrationBook::PlayAction(MxU32 p_objectId)
 {
 	MxDSAction action;

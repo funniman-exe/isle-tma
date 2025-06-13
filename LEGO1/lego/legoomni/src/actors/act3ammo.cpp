@@ -271,8 +271,8 @@ void Act3Ammo::Animate(float p_time)
 			positionRef.Clear();
 			transform.RotateX(0.6);
 			positionRef = position;
-			m_roi->FUN_100a58f0(transform);
-			m_roi->VTable0x14();
+			m_roi->SetLocal2World(transform);
+			m_roi->WrappedUpdateWorldData();
 			return;
 		}
 		else {
@@ -280,8 +280,8 @@ void Act3Ammo::Animate(float p_time)
 			m_unk0x158 = 0;
 
 			positionRef -= g_unk0x10104f08;
-			m_roi->FUN_100a58f0(transform);
-			m_roi->VTable0x14();
+			m_roi->SetLocal2World(transform);
+			m_roi->WrappedUpdateWorldData();
 			return;
 		}
 	}
@@ -337,7 +337,7 @@ void Act3Ammo::Animate(float p_time)
 			Vector3 local174(local104[2]);
 
 			if (IsPizza()) {
-				local184 = *m_boundary->GetUnknown0x14();
+				local184 = *m_boundary->GetUp();
 				local17c[0] = 1.0f;
 				local17c[1] = local17c[2] = 0.0f;
 				local174.EqualsCross(local17c, local184);
@@ -345,7 +345,7 @@ void Act3Ammo::Animate(float p_time)
 				local17c.EqualsCross(local184, local174);
 			}
 			else {
-				local17c = *m_boundary->GetUnknown0x14();
+				local17c = *m_boundary->GetUp();
 				local184[0] = 1.0f;
 				local184[1] = local184[2] = 0.0f;
 				local174.EqualsCross(local17c, local184);
@@ -363,8 +363,8 @@ void Act3Ammo::Animate(float p_time)
 
 	MxMatrix localb0(local104);
 	local104.Product(local60, localb0);
-	m_roi->FUN_100a58f0(local104);
-	m_roi->VTable0x14();
+	m_roi->SetLocal2World(local104);
+	m_roi->WrappedUpdateWorldData();
 
 	if (m_BADuration <= m_unk0x7c) {
 		m_worldSpeed = 0.0f;

@@ -52,13 +52,6 @@ LegoInputManager::LegoInputManager()
 	m_autoDragTime = 1000;
 }
 
-// FUNCTION: LEGO1 0x1005b8b0
-MxResult LegoInputManager::Tickle()
-{
-	ProcessEvents();
-	return SUCCESS;
-}
-
 // FUNCTION: LEGO1 0x1005b8f0
 LegoInputManager::~LegoInputManager()
 {
@@ -202,7 +195,7 @@ MxResult LegoInputManager::GetNavigationKeyStates(MxU32& p_keyFlags)
 	}
 
 	if ((m_keyboardState[DIK_LCONTROL] | m_keyboardState[DIK_RCONTROL]) & 0x80) {
-		keyFlags |= c_bit5;
+		keyFlags |= c_ctrl;
 	}
 
 	p_keyFlags = keyFlags;

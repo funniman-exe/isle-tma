@@ -16,6 +16,11 @@ class MxDSAction;
 // SIZE 0x10
 class PoliceState : public LegoState {
 public:
+	enum {
+		e_noAnimation = 0,
+		e_playingAnimation = 1,
+	};
+
 	PoliceState();
 	~PoliceState() override {}
 
@@ -38,15 +43,15 @@ public:
 	// SYNTHETIC: LEGO1 0x1005e920
 	// PoliceState::`scalar deleting destructor'
 
-	undefined4 GetUnknown0x0c() { return m_unk0x0c; }
-	void SetUnknown0x0c(undefined4 p_unk0x0c) { m_unk0x0c = p_unk0x0c; }
+	MxS32 GetState() { return m_state; }
+	void SetState(MxS32 p_state) { m_state = p_state; }
 
-	void FUN_1005ea40();
+	void StartAnimation();
 
 	// TODO: Most likely getters/setters are not used according to BETA.
 
 	PoliceScript::Script m_policeScript; // 0x08
-	undefined4 m_unk0x0c;                // 0x0c
+	MxS32 m_state;                       // 0x0c
 };
 
 // VTABLE: LEGO1 0x100d8a80
@@ -58,6 +63,9 @@ public:
 	~Police() override; // vtable+0x00
 
 	MxLong Notify(MxParam& p_param) override; // vtable+0x04
+
+	// FUNCTION: LEGO1 0x1005e1d0
+	MxBool VTable0x5c() override { return TRUE; } // vtable+0x5c
 
 	// FUNCTION: LEGO1 0x1005e1e0
 	// FUNCTION: BETA10 0x100f0c50
@@ -75,7 +83,6 @@ public:
 
 	MxResult Create(MxDSAction& p_dsAction) override; // vtable+0x18
 	void ReadyWorld() override;                       // vtable+0x50
-	MxBool VTable0x5c() override;                     // vtable+0x5c
 	MxBool Escape() override;                         // vtable+0x64
 	void Enable(MxBool p_enable) override;            // vtable+0x68
 

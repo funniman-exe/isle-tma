@@ -16,9 +16,22 @@ class MxStillPresenter;
 // SIZE 0x18
 class HospitalState : public LegoState {
 public:
-	// SIZE 0x04
-	struct Unknown0x08 {
-		undefined4 m_unk0x00; // 0x00
+	enum {
+		e_exitToClose = 0,
+		e_newState = 1,
+		e_unknown3 = 3,
+		e_unknown4 = 4,
+		e_introduction = 5,
+		e_explainQuestShort = 6,
+		e_explainQuest = 7,
+		e_waitAcceptingQuest = 8,
+		e_beforeEnteringAmbulance = 9,
+		e_unknown10 = 10, // Can never be reached
+		e_unknown11 = 11, // Can only be reached via e_unknown10
+		e_afterAcceptingQuest = 12,
+		e_exitImmediately = 13,
+		e_exitToInfocenter = 14,
+		e_exitToFront = 15,
 	};
 
 	HospitalState();
@@ -45,13 +58,13 @@ public:
 
 	// TODO: Most likely getters/setters are not used according to BETA.
 
-	Unknown0x08 m_unk0x08; // 0x08
-	MxS16 m_unk0x0c;       // 0x0c
-	MxS16 m_unk0x0e;       // 0x0e
-	MxS16 m_unk0x10;       // 0x10
-	MxS16 m_unk0x12;       // 0x12
-	MxS16 m_unk0x14;       // 0x14
-	MxS16 m_unk0x16;       // 0x16
+	MxS32 m_state;       // 0x08
+	MxS16 m_stateActor;  // 0x0c
+	MxS16 m_statePepper; // 0x0e
+	MxS16 m_stateMama;   // 0x10
+	MxS16 m_statePapa;   // 0x12
+	MxS16 m_stateNick;   // 0x14
+	MxS16 m_stateLaura;  // 0x16
 };
 
 // VTABLE: LEGO1 0x100d9730
@@ -64,6 +77,9 @@ public:
 
 	MxLong Notify(MxParam& p_param) override; // vtable+0x04
 	MxResult Tickle() override;               // vtable+0x08
+
+	// FUNCTION: LEGO1 0x100746a0
+	MxBool VTable0x5c() override { return TRUE; } // vtable+0x5c
 
 	// FUNCTION: LEGO1 0x100746b0
 	// FUNCTION: BETA10 0x1002e1a0
@@ -81,7 +97,6 @@ public:
 
 	MxResult Create(MxDSAction& p_dsAction) override; // vtable+0x18
 	void ReadyWorld() override;                       // vtable+0x50
-	MxBool VTable0x5c() override;                     // vtable+0x5c
 	MxBool Escape() override;                         // vtable+0x64
 	void Enable(MxBool p_enable) override;            // vtable+0x68
 
@@ -98,13 +113,13 @@ private:
 
 	MxS16 m_currentActorId;                 // 0xf8
 	LegoGameState::Area m_destLocation;     // 0xfc
-	undefined2 m_unk0x100;                  // 0x100
+	MxU16 m_interactionMode;                // 0x100
 	HospitalState* m_hospitalState;         // 0x104
-	undefined2 m_unk0x108;                  // 0x108
+	MxU16 m_setWithCurrentAction;           // 0x108
 	HospitalScript::Script m_currentAction; // 0x10c
 	MxStillPresenter* m_copLedBitmap;       // 0x110
 	MxStillPresenter* m_pizzaLedBitmap;     // 0x114
-	undefined m_unk0x118;                   // 0x118
+	MxBool m_flashingLeds;                  // 0x118
 	MxLong m_copLedAnimTimer;               // 0x11c
 	MxLong m_pizzaLedAnimTimer;             // 0x120
 	MxLong m_time;                          // 0x124

@@ -28,7 +28,7 @@ MxDSAction::MxDSAction()
 	m_location.Fill(FLT_MAX);
 	m_direction.Fill(FLT_MAX);
 	m_up.Fill(FLT_MAX);
-	m_unk0x84 = NULL;
+	m_notificationObject = NULL;
 	m_unk0x88 = 0;
 	m_origin = NULL;
 	m_unk0x90 = INT_MIN;
@@ -89,7 +89,7 @@ void MxDSAction::CopyFrom(MxDSAction& p_dsAction)
 	m_direction = p_dsAction.m_direction;
 	m_up = p_dsAction.m_up;
 	AppendExtra(p_dsAction.m_extraLength, p_dsAction.m_extraData);
-	m_unk0x84 = p_dsAction.m_unk0x84;
+	m_notificationObject = p_dsAction.m_notificationObject;
 	m_unk0x88 = p_dsAction.m_unk0x88;
 	m_origin = p_dsAction.m_origin;
 	m_unk0x90 = p_dsAction.m_unk0x90;
@@ -113,14 +113,14 @@ undefined4 MxDSAction::VTable0x14()
 MxU32 MxDSAction::GetSizeOnDisk()
 {
 	MxU32 size = MxDSObject::GetSizeOnDisk();
-	size += sizeof(m_flags);
-	size += sizeof(m_startTime);
-	size += sizeof(m_duration);
-	size += sizeof(m_loopCount);
+	size += sizeof(MxU32);
+	size += sizeof(MxS32);
+	size += sizeof(MxS32);
+	size += sizeof(MxS32);
 	size += sizeof(double) * 3; // m_location
 	size += sizeof(double) * 3; // m_direction
 	size += sizeof(double) * 3; // m_up
-	size += sizeof(m_extraLength);
+	size += sizeof(MxU16);
 	size += m_extraLength;
 
 	m_sizeOnDisk = size - MxDSObject::GetSizeOnDisk();
@@ -256,15 +256,15 @@ void MxDSAction::AppendExtra(MxU16 p_extraLength, const char* p_extraData)
 
 // FUNCTION: LEGO1 0x100adf70
 // FUNCTION: BETA10 0x1012ba6a
-void MxDSAction::Deserialize(MxU8*& p_source, MxS16 p_unk0x24)
+void MxDSAction::Deserialize(MxU8*& p_source, MxS16 p_flags)
 {
-	MxDSObject::Deserialize(p_source, p_unk0x24);
+	MxDSObject::Deserialize(p_source, p_flags);
 
 	// clang-format off
-	m_flags           = *( MxU32*) p_source;  p_source += sizeof(m_flags);
-	m_startTime       = *(MxLong*) p_source;  p_source += sizeof(m_startTime);
-	m_duration        = *(MxLong*) p_source;  p_source += sizeof(m_duration);
-	m_loopCount       = *( MxS32*) p_source;  p_source += sizeof(m_loopCount);
+	m_flags           = *( MxU32*) p_source;  p_source += sizeof(MxU32);
+	m_startTime       = *(MxLong*) p_source;  p_source += sizeof(MxS32);
+	m_duration        = *(MxLong*) p_source;  p_source += sizeof(MxS32);
+	m_loopCount       = *( MxS32*) p_source;  p_source += sizeof(MxS32);
 	m_location[0]     = *(double*) p_source;  p_source += sizeof(double);
 	m_location[1]     = *(double*) p_source;  p_source += sizeof(double);
 	m_location[2]     = *(double*) p_source;  p_source += sizeof(double);

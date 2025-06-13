@@ -96,10 +96,17 @@ protected:
 // Vector<unsigned char *>::~Vector<unsigned char *>
 
 // TEMPLATE: LEGO1 0x1001c7c0
+// TEMPLATE: BETA10 0x1000fb40
 // vector<LegoAnimActorStruct *,allocator<LegoAnimActorStruct *> >::size
+
+// TEMPLATE: BETA10 0x1000fb90
+// vector<LegoAnimActorStruct *,allocator<LegoAnimActorStruct *> >::operator[]
 
 // TEMPLATE: LEGO1 0x1001c7e0
 // vector<LegoAnimActorStruct *,allocator<LegoAnimActorStruct *> >::_Destroy
+
+// TEMPLATE: BETA10 0x1000fbc0
+// vector<LegoAnimActorStruct *,allocator<LegoAnimActorStruct *> >::begin
 
 // TEMPLATE: LEGO1 0x1001c9e0
 // uninitialized_fill_n

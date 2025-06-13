@@ -13,6 +13,7 @@ DECOMP_SIZE_ASSERT(LegoRaceActor, 0x180)
 
 // Initialized at LEGO1 0x100145a0
 // GLOBAL: LEGO1 0x10102b08
+// GLOBAL: BETA10 0x102114a8
 Mx3DPointFloat LegoRaceActor::g_unk0x10102b08 = Mx3DPointFloat(0.0, 2.0, 0.0);
 
 // FUNCTION: LEGO1 0x100145d0
@@ -83,7 +84,7 @@ MxU32 LegoRaceActor::VTable0x90(float p_time, Matrix4& p_transform)
 			m_unk0x08 = 0;
 
 			positionRef -= g_unk0x10102b08;
-			m_roi->FUN_100a58f0(p_transform);
+			m_roi->SetLocal2World(p_transform);
 			return TRUE;
 		}
 	}
@@ -101,14 +102,14 @@ MxResult LegoRaceActor::HitActor(LegoPathActor* p_actor, MxBool p_bool)
 		}
 
 		if (p_bool) {
+			MxMatrix matr;
 			LegoROI* roi = p_actor->GetROI(); // name verified by BETA10 0x100c9fcf
 			assert(roi);
-			MxMatrix matr;
 			matr = roi->GetLocal2World();
 
 			Vector3(matr[3]) += g_unk0x10102b08;
 
-			roi->FUN_100a58f0(matr);
+			roi->SetLocal2World(matr);
 
 			p_actor->SetActorState(c_two);
 		}

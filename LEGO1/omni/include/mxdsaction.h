@@ -47,17 +47,17 @@ public:
 		return !strcmp(p_name, MxDSAction::ClassName()) || MxDSObject::IsA(p_name);
 	}
 
-	undefined4 VTable0x14() override;                            // vtable+14;
-	MxU32 GetSizeOnDisk() override;                              // vtable+18;
-	void Deserialize(MxU8*& p_source, MxS16 p_unk0x24) override; // vtable+1c;
-	virtual MxLong GetDuration();                                // vtable+24;
-	virtual void SetDuration(MxLong p_duration);                 // vtable+28;
-	virtual MxDSAction* Clone();                                 // vtable+2c;
-	virtual void MergeFrom(MxDSAction& p_dsAction);              // vtable+30;
-	virtual MxBool HasId(MxU32 p_objectId);                      // vtable+34;
-	virtual void SetUnknown90(MxLong p_unk0x90);                 // vtable+38;
-	virtual MxLong GetUnknown90();                               // vtable+3c;
-	virtual MxLong GetElapsedTime();                             // vtable+40;
+	undefined4 VTable0x14() override;                            // vtable+0x14
+	MxU32 GetSizeOnDisk() override;                              // vtable+0x18
+	void Deserialize(MxU8*& p_source, MxS16 p_unk0x24) override; // vtable+0x1c
+	virtual MxLong GetDuration();                                // vtable+0x24
+	virtual void SetDuration(MxLong p_duration);                 // vtable+0x28
+	virtual MxDSAction* Clone();                                 // vtable+0x2c
+	virtual void MergeFrom(MxDSAction& p_dsAction);              // vtable+0x30
+	virtual MxBool HasId(MxU32 p_objectId);                      // vtable+0x34
+	virtual void SetUnknown90(MxLong p_unk0x90);                 // vtable+0x38
+	virtual MxLong GetUnknown90();                               // vtable+0x3c
+	virtual MxLong GetElapsedTime();                             // vtable+0x40
 
 	void AppendExtra(MxU16 p_extraLength, const char* p_extraData);
 
@@ -104,8 +104,8 @@ public:
 	// FUNCTION: BETA10 0x10015430
 	void SetUp(const Vector3& p_up) { m_up = p_up; }
 
-	MxCore* GetUnknown84() { return m_unk0x84; }
-	void SetUnknown84(MxCore* p_unk0x84) { m_unk0x84 = p_unk0x84; }
+	MxCore* GetNotificationObject() { return m_notificationObject; }
+	void SetNotificationObject(MxCore* p_notificationObject) { m_notificationObject = p_notificationObject; }
 	MxCore* GetOrigin() { return m_origin; }
 	void SetOrigin(MxCore* p_origin) { m_origin = p_origin; }
 
@@ -117,20 +117,20 @@ public:
 	// MxDSAction::`scalar deleting destructor'
 
 protected:
-	MxU32 m_sizeOnDisk;         // 0x2c
-	MxU32 m_flags;              // 0x30
-	MxLong m_startTime;         // 0x34
-	MxLong m_duration;          // 0x38
-	MxS32 m_loopCount;          // 0x3c
-	Mx3DPointFloat m_location;  // 0x40
-	Mx3DPointFloat m_direction; // 0x54
-	Mx3DPointFloat m_up;        // 0x68
-	char* m_extraData;          // 0x7c
-	MxU16 m_extraLength;        // 0x80
-	MxCore* m_unk0x84;          // 0x84
-	undefined4 m_unk0x88;       // 0x88
-	MxCore* m_origin;           // 0x8c
-	MxLong m_unk0x90;           // 0x90
+	MxU32 m_sizeOnDisk;           // 0x2c
+	MxU32 m_flags;                // 0x30
+	MxLong m_startTime;           // 0x34
+	MxLong m_duration;            // 0x38
+	MxS32 m_loopCount;            // 0x3c
+	Mx3DPointFloat m_location;    // 0x40
+	Mx3DPointFloat m_direction;   // 0x54
+	Mx3DPointFloat m_up;          // 0x68
+	char* m_extraData;            // 0x7c
+	MxU16 m_extraLength;          // 0x80
+	MxCore* m_notificationObject; // 0x84
+	undefined4 m_unk0x88;         // 0x88
+	MxCore* m_origin;             // 0x8c
+	MxLong m_unk0x90;             // 0x90
 };
 
 #endif // MXDSACTION_H

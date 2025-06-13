@@ -14,16 +14,6 @@ LegoHideAnimPresenter::LegoHideAnimPresenter()
 	Init();
 }
 
-// FUNCTION: LEGO1 0x1006d860
-void LegoHideAnimPresenter::VTable0x8c()
-{
-}
-
-// FUNCTION: LEGO1 0x1006d870
-void LegoHideAnimPresenter::VTable0x90()
-{
-}
-
 // FUNCTION: LEGO1 0x1006d9f0
 LegoHideAnimPresenter::~LegoHideAnimPresenter()
 {
@@ -128,8 +118,7 @@ void LegoHideAnimPresenter::FUN_1006db60(LegoTreeNode* p_node, LegoTime p_time)
 
 		if (boundary != NULL) {
 			newB = data->FUN_100a0990(p_time);
-			boundary->GetFlag0x10();
-			// TODO: Match
+			previousB = boundary->GetFlag0x10();
 			boundary->SetFlag0x10(newB);
 		}
 	}

@@ -19,6 +19,7 @@
 DECOMP_SIZE_ASSERT(Act2Brick, 0x194)
 
 // GLOBAL: LEGO1 0x100f7a38
+// GLOBAL: BETA10 0x101dc480
 const LegoChar* Act2Brick::g_lodNames[] =
 	{"xchbase1", "xchblad1", "xchseat1", "xchtail1", "xhback1", "xhljet1", "xhmidl1", "xhmotr1", "xhsidl1", "xhsidr1"};
 
@@ -51,8 +52,12 @@ MxResult Act2Brick::Create(MxS32 p_index)
 	sprintf(name, "chbrick%d", p_index);
 
 	m_roi = CharacterManager()->CreateAutoROI(name, g_lodNames[p_index], FALSE);
+	assert(m_roi);
 
-	BoundingSphere sphere = m_roi->GetBoundingSphere();
+#ifndef BETA10
+	BoundingSphere sphere;
+
+	sphere.Center() = m_roi->GetBoundingSphere().Center();
 	sphere.Center()[1] -= 0.3;
 
 	if (p_index < 6) {
@@ -63,6 +68,8 @@ MxResult Act2Brick::Create(MxS32 p_index)
 	}
 
 	m_roi->SetBoundingSphere(sphere);
+#endif
+
 	m_roi->SetEntity(this);
 	CurrentWorld()->Add(this);
 	m_unk0x164 = 1;
@@ -101,8 +108,8 @@ void Act2Brick::FUN_1007a670(MxMatrix& p_param1, MxMatrix& p_param2, LegoPathBou
 	p_boundary->AddActor(this);
 
 	SetActorState(c_disabled);
-	m_roi->FUN_100a58f0(p_param1);
-	m_roi->VTable0x14();
+	m_roi->SetLocal2World(p_param1);
+	m_roi->WrappedUpdateWorldData();
 	m_roi->SetVisibility(TRUE);
 }
 
@@ -140,8 +147,8 @@ MxResult Act2Brick::Tickle()
 		VPV3(local2world[3], local2world[3], m_unk0x168);
 	}
 
-	m_roi->FUN_100a58f0(local2world);
-	m_roi->VTable0x14();
+	m_roi->SetLocal2World(local2world);
+	m_roi->WrappedUpdateWorldData();
 	return SUCCESS;
 }
 

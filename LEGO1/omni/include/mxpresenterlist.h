@@ -104,9 +104,9 @@ public:
 // MxPtrListCursor<MxPresenter>::MxPtrListCursor<MxPresenter>
 
 // TEMPLATE: BETA10 0x1007d270
-// MxListCursor<MxPresenter>::MxListCursor<MxPresenter>
+// MxListCursor<MxPresenter *>::MxListCursor<MxPresenter *>
 
 // TEMPLATE: BETA10 0x100d9420
-// MxListCursor<MxPresenter>::Prev
+// ?Prev@?$MxListCursor@PAVMxPresenter@@@@QAEEAAPAVMxPresenter@@@Z
 
 #endif // MXPRESENTERLIST_H

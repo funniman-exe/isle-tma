@@ -136,7 +136,7 @@ BOOL CConfigApp::WriteReg(const char* p_key, const char* p_value) const
 	HKEY hKey;
 	DWORD pos;
 
-	if (RegCreateKeyExA(
+	if (RegCreateKeyEx(
 			HKEY_LOCAL_MACHINE,
 			"SOFTWARE\\ActionSoft\\LEGO Island TMA",
 			0,
@@ -147,7 +147,7 @@ BOOL CConfigApp::WriteReg(const char* p_key, const char* p_value) const
 			&hKey,
 			&pos
 		) == ERROR_SUCCESS) {
-		if (RegSetValueExA(hKey, p_key, 0, REG_SZ, (LPBYTE) p_value, strlen(p_value)) == ERROR_SUCCESS) {
+		if (RegSetValueEx(hKey, p_key, 0, REG_SZ, (LPBYTE) p_value, strlen(p_value)) == ERROR_SUCCESS) {
 			if (RegCloseKey(hKey) == ERROR_SUCCESS) {
 				return TRUE;
 			}
@@ -250,7 +250,7 @@ BOOL CConfigApp::ReadRegisterSettings()
 	if (tmp != 0) {
 		is_modified = TRUE;
 		m_device_enumerator->FUN_1009d210();
-		tmp = m_device_enumerator->FUN_1009d0d0();
+		tmp = m_device_enumerator->GetBestDevice();
 		m_device_enumerator->GetDevice(tmp, m_driver, m_device);
 	}
 	if (!ReadRegInt("Display Bit Depth", &m_display_bit_depth)) {
@@ -363,17 +363,17 @@ DWORD CConfigApp::GetConditionalDeviceRenderBitDepth() const
 	if (GetHardwareDeviceColorModel()) {
 		return 0;
 	}
-	return m_device->m_HELDesc.dwDeviceRenderBitDepth & 0x800;
+	return m_device->m_HELDesc.dwDeviceRenderBitDepth & DDBD_8;
 }
 
 // FUNCTION: CONFIG 0x004037e0
 DWORD CConfigApp::GetDeviceRenderBitStatus() const
 {
 	if (GetHardwareDeviceColorModel()) {
-		return m_device->m_HWDesc.dwDeviceRenderBitDepth & 0x400;
+		return m_device->m_HWDesc.dwDeviceRenderBitDepth & DDBD_16;
 	}
 	else {
-		return m_device->m_HELDesc.dwDeviceRenderBitDepth & 0x400;
+		return m_device->m_HELDesc.dwDeviceRenderBitDepth & DDBD_16;
 	}
 }
 

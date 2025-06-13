@@ -146,7 +146,7 @@ void Score::ReadyWorld()
 	MxDSAction action;
 	action.SetObjectId(InfoscorScript::c_nin001pr_RunAnim);
 	action.SetAtomId(m_atomId);
-	action.SetUnknown84(this);
+	action.SetNotificationObject(this);
 	Start(&action);
 
 	if (m_state->GetTutorialFlag()) {
@@ -165,10 +165,10 @@ void Score::ReadyWorld()
 // FUNCTION: LEGO1 0x100016d0
 MxLong Score::FUN_100016d0(LegoControlManagerNotificationParam& p_param)
 {
-	MxS16 unk0x28 = p_param.GetUnknown0x28();
+	MxS16 unk0x28 = p_param.m_unk0x28;
 
-	if (unk0x28 == 1 || p_param.GetClickedObjectId() == InfoscorScript::c_LegoBox_Ctl) {
-		switch (p_param.GetClickedObjectId()) {
+	if (unk0x28 == 1 || p_param.m_clickedObjectId == InfoscorScript::c_LegoBox_Ctl) {
+		switch (p_param.m_clickedObjectId) {
 		case InfoscorScript::c_LeftArrow_Ctl:
 			m_destLocation = LegoGameState::e_infomain;
 			DeleteScript();

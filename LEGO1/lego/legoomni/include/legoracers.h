@@ -1,9 +1,10 @@
 #ifndef LEGORACERS_H
 #define LEGORACERS_H
 
-#include "legojetskiraceactor.h"
-#include "legoracemap.h"
+// clang-format off
 #include "legoracespecial.h"
+// clang-format on
+#include "legoracemap.h"
 
 #define LEGORACECAR_UNKNOWN_0 0
 #define LEGORACECAR_UNKNOWN_1 1
@@ -71,7 +72,7 @@ public:
 	MxResult HitActor(LegoPathActor* p_actor, MxBool p_bool) override; // vtable+0x94
 
 	// FUNCTION: LEGO1 0x100141d0
-	void SwitchBoundary(LegoPathBoundary*& p_boundary, LegoUnknown100db7f4*& p_edge, float& p_unk0xe4) override
+	void SwitchBoundary(LegoPathBoundary*& p_boundary, LegoOrientedEdge*& p_edge, float& p_unk0xe4) override
 	{
 		LegoJetskiRaceActor::SwitchBoundary(p_boundary, p_edge, p_unk0xe4);
 	} // vtable+0x98
@@ -80,6 +81,8 @@ public:
 	MxResult VTable0x9c() override { return LegoJetskiRaceActor::VTable0x9c(); } // vtable+0x9c
 
 	virtual void FUN_100136f0(float p_worldSpeed);
+
+	static void InitSoundIndices();
 
 	// SYNTHETIC: LEGO1 0x10013e30
 	// LegoJetski::`scalar deleting destructor'
@@ -133,7 +136,7 @@ public:
 
 	// FUNCTION: LEGO1 0x10014560
 	// FUNCTION: BETA10 0x100cd660
-	void SwitchBoundary(LegoPathBoundary*& p_boundary, LegoUnknown100db7f4*& p_edge, float& p_unk0xe4) override
+	void SwitchBoundary(LegoPathBoundary*& p_boundary, LegoOrientedEdge*& p_edge, float& p_unk0xe4) override
 	{
 		LegoCarRaceActor::SwitchBoundary(p_boundary, p_edge, p_unk0xe4);
 	} // vtable+0x98
@@ -145,8 +148,7 @@ public:
 	virtual MxU32 HandleSkeletonKicks(float p_param1);
 
 	static void FUN_10012de0();
-	static void FUN_10012e00();
-	static void FUN_10013670();
+	static void InitSoundIndices();
 
 	// SYNTHETIC: LEGO1 0x10014240
 	// LegoRaceCar::`scalar deleting destructor'

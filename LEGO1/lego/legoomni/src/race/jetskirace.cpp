@@ -63,14 +63,13 @@ MxResult JetskiRace::Create(MxDSAction& p_dsAction)
 	m_unk0x130.SetTop(317);
 	m_unk0x130.SetRight(543);
 	m_unk0x130.SetBottom(333);
-	LegoRaceCar::FUN_10013670();
-	InvokeAction(
-		Extra::e_start,
-		m_atomId,
-		DuneBuggy::GetColorOffset(g_varJSFRNTY5) + (DuneBuggy::GetColorOffset(g_varJSWNSHY5) * 5 + 0xf) * 2,
-		NULL
-	);
+	LegoJetski::InitSoundIndices();
+
+	MxS32 streamId =
+		DuneBuggy::GetColorOffset(g_varJSFRNTY5) + (DuneBuggy::GetColorOffset(g_varJSWNSHY5) * 5 + 0xf) * 2;
+	InvokeAction(Extra::e_start, m_atomId, streamId, NULL);
 	InvokeAction(Extra::e_start, m_atomId, JetraceScript::c_JetskiDashboard, NULL);
+
 	g_unk0x100f119c = TRUE;
 
 	return result;

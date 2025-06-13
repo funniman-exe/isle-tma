@@ -71,6 +71,7 @@ MxLong IslePathActor::Notify(MxParam& p_param)
 }
 
 // FUNCTION: LEGO1 0x1001a350
+// FUNCTION: BETA10 0x100365ad
 void IslePathActor::Enter()
 {
 	m_roi->SetVisibility(FALSE);
@@ -118,11 +119,11 @@ void IslePathActor::Exit()
 
 		MxS32 i;
 		for (i = 0; i < m_boundary->GetNumEdges(); i++) {
-			LegoUnknown100db7f4* e = (LegoUnknown100db7f4*) m_boundary->GetEdges()[i];
+			LegoOrientedEdge* e = (LegoOrientedEdge*) m_boundary->GetEdges()[i];
 			assert(e);
 
 			Mx3DPointFloat local20;
-			e->FUN_1002ddc0(*m_boundary, local20);
+			e->GetFaceNormal(*m_boundary, local20);
 
 			local20 *= m_roi->GetWorldBoundingSphere().Radius();
 			local20 += GetWorldPosition();
@@ -629,7 +630,7 @@ void IslePathActor::VTable0xec(MxMatrix p_transform, LegoPathBoundary* p_boundar
 		m_world->Add(this);
 	}
 
-	m_roi->FUN_100a58f0(p_transform);
+	m_roi->SetLocal2World(p_transform);
 	if (m_cameraFlag) {
 		FUN_1003eda0();
 		FUN_10010c30();
@@ -647,6 +648,6 @@ void IslePathActor::FUN_1001b660()
 
 	up *= -1.0f;
 	position.EqualsCross(direction, up);
-	m_roi->FUN_100a58f0(transform);
-	m_roi->VTable0x14();
+	m_roi->SetLocal2World(transform);
+	m_roi->WrappedUpdateWorldData();
 }

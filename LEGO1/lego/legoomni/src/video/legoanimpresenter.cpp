@@ -142,25 +142,25 @@ MxResult LegoAnimPresenter::CreateAnim(MxStreamChunk* p_chunk)
 	LegoS32 parseScene = 0;
 	MxS32 val3;
 
-	if (storage.Read(&magicSig, sizeof(magicSig)) != SUCCESS || magicSig != 0x11) {
+	if (storage.Read(&magicSig, sizeof(MxS32)) != SUCCESS || magicSig != 0x11) {
 		goto done;
 	}
-	if (storage.Read(&m_unk0xa4, sizeof(m_unk0xa4)) != SUCCESS) {
+	if (storage.Read(&m_unk0xa4, sizeof(float)) != SUCCESS) {
 		goto done;
 	}
-	if (storage.Read(&m_unk0xa8[0], sizeof(m_unk0xa8[0])) != SUCCESS) {
+	if (storage.Read(&m_unk0xa8[0], sizeof(float)) != SUCCESS) {
 		goto done;
 	}
-	if (storage.Read(&m_unk0xa8[1], sizeof(m_unk0xa8[1])) != SUCCESS) {
+	if (storage.Read(&m_unk0xa8[1], sizeof(float)) != SUCCESS) {
 		goto done;
 	}
-	if (storage.Read(&m_unk0xa8[2], sizeof(m_unk0xa8[2])) != SUCCESS) {
+	if (storage.Read(&m_unk0xa8[2], sizeof(float)) != SUCCESS) {
 		goto done;
 	}
-	if (storage.Read(&parseScene, sizeof(parseScene)) != SUCCESS) {
+	if (storage.Read(&parseScene, sizeof(LegoS32)) != SUCCESS) {
 		goto done;
 	}
-	if (storage.Read(&val3, sizeof(val3)) != SUCCESS) {
+	if (storage.Read(&val3, sizeof(MxS32)) != SUCCESS) {
 		goto done;
 	}
 
@@ -659,8 +659,8 @@ void LegoAnimPresenter::PutFrame()
 					dir *= dirsqr;
 					up *= upsqr;
 
-					m_unk0x8c[i]->FUN_100a58f0(mat);
-					m_unk0x8c[i]->VTable0x14();
+					m_unk0x8c[i]->SetLocal2World(mat);
+					m_unk0x8c[i]->WrappedUpdateWorldData();
 				}
 			}
 		}
@@ -689,7 +689,7 @@ MxResult LegoAnimPresenter::FUN_1006afc0(MxMatrix*& p_matrix, float p_und)
 		if (m_roiMap[i] != NULL) {
 			mat = p_matrix[i];
 			p_matrix[i] = m_roiMap[i]->GetLocal2World();
-			m_roiMap[i]->FUN_100a58f0(mat);
+			m_roiMap[i]->SetLocal2World(mat);
 		}
 	}
 
@@ -704,7 +704,9 @@ MxResult LegoAnimPresenter::FUN_1006b140(LegoROI* p_roi)
 		return FAILURE;
 	}
 
-	MxMatrix* mn = new MxMatrix();
+	Matrix4* mn = new MxMatrix();
+	assert(mn);
+
 	MxMatrix local58;
 	const Matrix4& local2world = p_roi->GetLocal2World();
 	MxMatrix* local5c;
@@ -725,7 +727,7 @@ MxResult LegoAnimPresenter::FUN_1006b140(LegoROI* p_roi)
 	}
 
 	{
-		((Matrix4*) mn)->Product(local58, local2world);
+		mn->Product(local58, local2world);
 		SetUnknown0xa0(mn);
 		delete[] local5c;
 		SetUnknown0x0cTo1();
@@ -734,7 +736,7 @@ MxResult LegoAnimPresenter::FUN_1006b140(LegoROI* p_roi)
 		MxMatrix localf8;
 
 		localf8.Product(local140, *m_unk0xa0);
-		((Matrix4&) *m_unk0x78) = localf8;
+		*m_unk0x78 = localf8;
 		return SUCCESS;
 	}
 

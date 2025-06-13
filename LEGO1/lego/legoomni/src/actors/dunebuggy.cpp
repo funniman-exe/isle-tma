@@ -121,8 +121,8 @@ MxLong DuneBuggy::HandleControl(LegoControlManagerNotificationParam& p_param)
 {
 	MxLong result = 0;
 
-	if (p_param.GetUnknown0x28() == 1) {
-		switch (p_param.GetClickedObjectId()) {
+	if (p_param.m_unk0x28 == 1) {
+		switch (p_param.m_clickedObjectId) {
 		case IsleScript::c_DuneCarArms_Ctl:
 			Exit();
 			GameState()->m_currentArea = LegoGameState::e_unk66;
@@ -137,7 +137,7 @@ MxLong DuneBuggy::HandleControl(LegoControlManagerNotificationParam& p_param)
 		case IsleScript::c_DuneCarHorn_Ctl:
 			MxSoundPresenter* presenter =
 				(MxSoundPresenter*) CurrentWorld()->Find("MxSoundPresenter", "DuneCarHorn_Sound");
-			presenter->Enable(p_param.GetUnknown0x28());
+			presenter->Enable(p_param.m_unk0x28);
 			break;
 		}
 	}
@@ -157,27 +157,30 @@ MxLong DuneBuggy::HandlePathStruct(LegoPathStructNotificationParam& p_param)
 }
 
 // FUNCTION: LEGO1 0x10068290
+// FUNCTION: BETA10 0x1002765d
 MxS32 DuneBuggy::GetColorOffset(const char* p_variable)
 {
 	MxS32 offset = 1;
-	const char* colorName = VariableTable()->GetVariable(p_variable);
+	const char* color = VariableTable()->GetVariable(p_variable);
+	assert(color);
 
-	if (strcmpi(colorName, "lego green")) {
-		if (!strcmpi(colorName, "lego red")) {
-			offset = 2;
-		}
-		else if (!strcmpi(colorName, "lego yellow")) {
-			offset = 3;
-		}
-		else if (!strcmpi(colorName, "lego black")) {
-			offset = 4;
-		}
-		else if (!strcmpi(colorName, "lego blue")) {
-			offset = 5;
-		}
-		else if (!strcmpi(colorName, "lego white")) {
-			offset = 6;
-		}
+	if (!strcmpi(color, "lego green")) {
+		offset = 1;
+	}
+	else if (!strcmpi(color, "lego red")) {
+		offset = 2;
+	}
+	else if (!strcmpi(color, "lego yellow")) {
+		offset = 3;
+	}
+	else if (!strcmpi(color, "lego black")) {
+		offset = 4;
+	}
+	else if (!strcmpi(color, "lego blue")) {
+		offset = 5;
+	}
+	else if (!strcmpi(color, "lego white")) {
+		offset = 6;
 	}
 
 	return offset;

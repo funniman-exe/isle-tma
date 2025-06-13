@@ -7,7 +7,7 @@
 DECOMP_SIZE_ASSERT(ViewROI, 0xe4)
 
 // GLOBAL: LEGO1 0x101013d8
-undefined g_unk101013d8 = 0;
+unsigned char g_lightSupport = FALSE;
 
 // FUNCTION: LEGO1 0x100a9eb0
 float ViewROI::IntrinsicImportance() const
@@ -28,9 +28,9 @@ const Tgl::Group* ViewROI::GetGeometry() const
 }
 
 // FUNCTION: LEGO1 0x100a9ee0
-void ViewROI::UpdateWorldData(const Matrix4& parent2world)
+void ViewROI::UpdateWorldDataWithTransformAndChildren(const Matrix4& parent2world)
 {
-	OrientableROI::UpdateWorldData(parent2world);
+	OrientableROI::UpdateWorldDataWithTransformAndChildren(parent2world);
 
 	if (geometry) {
 		Tgl::FloatMatrix4 matrix;
@@ -42,9 +42,9 @@ void ViewROI::UpdateWorldData(const Matrix4& parent2world)
 }
 
 // FUNCTION: LEGO1 0x100a9fc0
-void ViewROI::VTable0x24(const Matrix4& p_transform)
+void ViewROI::UpdateWorldDataWithTransform(const Matrix4& p_transform)
 {
-	OrientableROI::VTable0x24(p_transform);
+	OrientableROI::UpdateWorldDataWithTransform(p_transform);
 	if (geometry) {
 		Tgl::FloatMatrix4 matrix;
 		Matrix4 in(matrix);
@@ -54,9 +54,9 @@ void ViewROI::VTable0x24(const Matrix4& p_transform)
 }
 
 // FUNCTION: LEGO1 0x100aa0a0
-void ViewROI::SetLocalTransform(const Matrix4& p_transform)
+void ViewROI::SetLocal2WorldWithWorldDataUpdate(const Matrix4& p_transform)
 {
-	OrientableROI::SetLocalTransform(p_transform);
+	OrientableROI::SetLocal2WorldWithWorldDataUpdate(p_transform);
 	if (geometry) {
 		Tgl::FloatMatrix4 matrix;
 		Matrix4 in(matrix);
@@ -66,9 +66,9 @@ void ViewROI::SetLocalTransform(const Matrix4& p_transform)
 }
 
 // FUNCTION: LEGO1 0x100aa180
-void ViewROI::VTable0x1c()
+void ViewROI::UpdateWorldData()
 {
-	OrientableROI::VTable0x1c();
+	OrientableROI::UpdateWorldData();
 	if (geometry) {
 		Tgl::FloatMatrix4 matrix;
 		Matrix4 in(matrix);
@@ -78,9 +78,9 @@ void ViewROI::VTable0x1c()
 }
 
 // FUNCTION: LEGO1 0x100aa500
-undefined ViewROI::SetUnk101013d8(undefined p_flag)
+unsigned char ViewROI::SetLightSupport(unsigned char p_lightSupport)
 {
-	undefined oldFlag = g_unk101013d8;
-	g_unk101013d8 = p_flag;
+	unsigned char oldFlag = g_lightSupport;
+	g_lightSupport = p_lightSupport;
 	return oldFlag;
 }

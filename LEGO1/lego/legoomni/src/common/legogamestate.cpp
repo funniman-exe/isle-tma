@@ -99,14 +99,14 @@ ColorStringStruct g_colorSaveData[43] = {
 	{"c_chljety1", "lego black"},  {"c_chrjety1", "lego black"}, // copter left jet, copter right jet
 	{"c_chmidly0", "lego black"},  {"c_chmotry0", "lego blue"},  // copter middle, copter motor
 	{"c_chsidly0", "lego black"},  {"c_chsidry0", "lego black"}, // copter side left, copter side right
-	{"c_chstuty0", "lego black"},  {"c_chtaily0", "lego black"}, // copter ???, copter tail
-	{"c_chwindy1", "lego black"},  {"c_dbfbrdy0", "lego red"},   // copter ???, dunebuggy ???
+	{"c_chstuty0", "lego black"},  {"c_chtaily0", "lego black"}, // copter skids, copter tail
+	{"c_chwindy1", "lego black"},  {"c_dbfbrdy0", "lego red"},   // copter windshield, dunebuggy body
 	{"c_dbflagy0", "lego yellow"}, {"c_dbfrfny4", "lego red"},   // dunebuggy flag, dunebuggy front fender
 	{"c_dbfrxly0", "lego white"},  {"c_dbhndly0", "lego white"}, // dunebuggy front axle, dunebuggy handlebar
-	{"c_dbltbry0", "lego white"},  {"c_jsdashy0", "lego white"}, // dunebuggy ???,  jetski dash
+	{"c_dbltbry0", "lego white"},  {"c_jsdashy0", "lego white"}, // dunebuggy rear lights,  jetski dash
 	{"c_jsexhy0", "lego black"},   {"c_jsfrnty5", "lego black"}, // jetski exhaust, jetski front
 	{"c_jshndly0", "lego red"},    {"c_jslsidy0", "lego black"}, // jetski handlebar, jetski left side
-	{"c_jsrsidy0", "lego black"},  {"c_jsskiby0", "lego red"},   // jetski right side, jetski ???
+	{"c_jsrsidy0", "lego black"},  {"c_jsskiby0", "lego red"},   // jetski right side, jetski base
 	{"c_jswnshy5", "lego white"},  {"c_rcbacky6", "lego green"}, // jetski windshield, racecar back
 	{"c_rcedgey0", "lego green"},  {"c_rcfrmey0", "lego red"},   // racecar edge, racecar frame
 	{"c_rcfrnty6", "lego green"},  {"c_rcmotry0", "lego white"}, // racecar front, racecar motor
@@ -145,7 +145,7 @@ const char* g_strDisable = "disable";
 LegoGameState::LegoGameState()
 {
 	SetColors();
-	SetROIHandlerFunction();
+	SetROIColorOverride();
 
 	m_stateCount = 0;
 	m_actorId = 0;
@@ -170,13 +170,13 @@ LegoGameState::LegoGameState()
 	VariableTable()->SetVariable(m_fullScreenMovie);
 
 	VariableTable()->SetVariable("lightposition", "2");
-	SerializeScoreHistory(1);
+	SerializeScoreHistory(LegoFile::c_read);
 }
 
 // FUNCTION: LEGO1 0x10039720
 LegoGameState::~LegoGameState()
 {
-	LegoROI::FUN_100a9d30(NULL);
+	LegoROI::SetColorOverride(NULL);
 
 	if (m_stateCount) {
 		for (MxS16 i = 0; i < m_stateCount; i++) {
@@ -215,7 +215,7 @@ void LegoGameState::SetActor(MxU8 p_actorId)
 	newActor->SetROI(roi, FALSE, FALSE);
 
 	if (oldActor) {
-		newActor->GetROI()->FUN_100a58f0(oldActor->GetROI()->GetLocal2World());
+		newActor->GetROI()->SetLocal2World(oldActor->GetROI()->GetLocal2World());
 		newActor->SetBoundary(oldActor->GetBoundary());
 		delete oldActor;
 	}
@@ -315,7 +315,7 @@ MxResult LegoGameState::Save(MxULong p_slot)
 
 	area = m_unk0x42c;
 	storage.WriteU16(area);
-	SerializeScoreHistory(2);
+	SerializeScoreHistory(LegoFile::c_write);
 	m_isDirty = FALSE;
 
 done:
@@ -513,7 +513,7 @@ MxS32 LegoGameState::ReadVariable(LegoStorage* p_storage, MxVariableTable* p_to)
 	MxS32 result = 1;
 	MxU8 len;
 
-	if (p_storage->Read(&len, sizeof(len)) != SUCCESS) {
+	if (p_storage->Read(&len, sizeof(MxU8)) != SUCCESS) {
 		goto done;
 	}
 
@@ -531,7 +531,7 @@ MxS32 LegoGameState::ReadVariable(LegoStorage* p_storage, MxVariableTable* p_to)
 		goto done;
 	}
 
-	if (p_storage->Read(&len, sizeof(len)) != SUCCESS) {
+	if (p_storage->Read(&len, sizeof(MxU8)) != SUCCESS) {
 		goto done;
 	}
 
@@ -1060,13 +1060,13 @@ void LegoGameState::SetColors()
 }
 
 // FUNCTION: LEGO1 0x1003bac0
-void LegoGameState::SetROIHandlerFunction()
+void LegoGameState::SetROIColorOverride()
 {
-	LegoROI::FUN_100a9d30(&ROIHandlerFunction);
+	LegoROI::SetColorOverride(&ROIColorOverride);
 }
 
 // FUNCTION: LEGO1 0x1003bad0
-MxBool ROIHandlerFunction(const char* p_input, char* p_output, MxU32 p_copyLen)
+MxBool ROIColorOverride(const char* p_input, char* p_output, MxU32 p_copyLen)
 {
 	if (p_output != NULL && p_copyLen != 0 &&
 		(strnicmp(p_input, "INDIR-F-", strlen("INDIR-F-")) == 0 ||
@@ -1303,7 +1303,7 @@ void LegoBackgroundColor::ToggleSkyColor()
 // FUNCTION: BETA10 0x10086984
 void LegoBackgroundColor::SetLightColor(float p_r, float p_g, float p_b)
 {
-	if (!VideoManager()->GetVideoParam().Flags().GetF2bit0()) {
+	if (!VideoManager()->GetVideoParam().Flags().GetLacksLightSupport()) {
 		// TODO: Computed constants based on what?
 		p_r *= 1. / 0.23;
 		p_g *= 1. / 0.63;
