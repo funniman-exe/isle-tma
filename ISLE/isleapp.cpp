@@ -793,13 +793,8 @@ BOOL IsleApp::ReadReg(LPCSTR name, LPSTR outValue, DWORD outSize)
 
 	BOOL out = FALSE;
 	DWORD size = outSize;
-<<<<<<< HEAD
 	if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\ActionSoft\\LEGO Island TMA", 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
 		if (RegQueryValueExA(hKey, name, NULL, &valueType, (LPBYTE) outValue, &size) == ERROR_SUCCESS) {
-=======
-	if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Mindscape\\LEGO Island", 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
-		if (RegQueryValueEx(hKey, name, NULL, &valueType, (LPBYTE) outValue, &size) == ERROR_SUCCESS) {
->>>>>>> upstream/master
 			if (RegCloseKey(hKey) == ERROR_SUCCESS) {
 				out = TRUE;
 			}

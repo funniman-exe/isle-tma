@@ -338,6 +338,18 @@ function(add_lego_libraries NAME)
     shape${ARG_SUFFIX}
     dxguid
   )
+  
+  target_compile_definitions(omni${ARG_SUFFIX} PRIVATE "_CRT_SECURE_NO_WARNINGS")
+  # target_compile_options(omni${ARG_SUFFIX} PRIVATE "-Zc:__cplusplus")
+
+  if (ISLE_DECOMP_ASSERT)
+    # message(STATUS "Decomp asserts enabled")
+    target_compile_definitions(omni${ARG_SUFFIX} PRIVATE "ENABLE_DECOMP_ASSERTS")
+  endif()
+
+  # set_property(GLOBAL APPEND PROPERTY JOB_POOLS "msvc_omni=1")
+  # set_property(TARGET omni${ARG_SUFFIX} PROPERTY JOB_POOL_COMPILE "msvc_omni")
+  # set_property(TARGET omni${ARG_SUFFIX} PROPERTY JOB_POOL_LINK "msvc_omni")
 
   if (ISLE_USE_SMARTHEAP)
     target_link_libraries(omni${ARG_SUFFIX} PRIVATE SmartHeap::SmartHeap)
@@ -378,11 +390,9 @@ function(add_lego_libraries NAME)
     LEGO1/lego/legoomni/src/paths/legoanimactor.cpp
     LEGO1/lego/legoomni/src/entity/legoworld.cpp
     LEGO1/lego/legoomni/src/build/legocarbuild.cpp
-    LEGO1/lego/legoomni/src/actors/ambulance.cpp
     LEGO1/lego/legoomni/src/common/legoplantmanager.cpp
     LEGO1/lego/legoomni/src/actors/bumpbouy.cpp
     LEGO1/modeldb/modeldb.cpp
-    LEGO1/lego/legoomni/src/actors/pizza.cpp
     LEGO1/lego/legoomni/src/actors/racecar.cpp
     LEGO1/lego/legoomni/src/control/legocontrolmanager.cpp
     LEGO1/lego/legoomni/src/audio/legosoundmanager.cpp
@@ -457,15 +467,13 @@ function(add_lego_libraries NAME)
     LEGO1/lego/legoomni/src/worlds/historybook.cpp
     LEGO1/lego/legoomni/src/common/legocharactermanager.cpp
     LEGO1/lego/legoomni/src/actors/jukeboxentity.cpp
-    LEGO1/main.cpp
     LEGO1/res/lego1.rc
     # We need to get rid of / refactor the below units into existing/other ones
     LEGO1/main.cpp
     LEGO1/lego/legoomni/src/entity/legolocations.cpp
     LEGO1/lego/legoomni/src/common/legoactors.cpp
-    # LEGO1/define.cpp
     LEGO1/lego/legoomni/src/common/legoplants.cpp
-    LEGO1/define.cpp
+    # LEGO1/define.cpp
   )
   list(APPEND list_targets ${NAME})
 
@@ -700,11 +708,6 @@ if (MSVC_FOR_DECOMP)
       set_property(GLOBAL APPEND PROPERTY JOB_POOLS "msvc_isle=1")
       set_property(TARGET isle PROPERTY JOB_POOL_COMPILE "msvc_isle")
       set_property(TARGET isle PROPERTY JOB_POOL_LINK "msvc_isle")
-    endif()
-    if (TARGET omni)
-      set_property(GLOBAL APPEND PROPERTY JOB_POOLS "msvc_omni=1")
-      set_property(TARGET omni PROPERTY JOB_POOL_COMPILE "msvc_omni")
-      set_property(TARGET omni PROPERTY JOB_POOL_LINK "msvc_omni")
     endif()
     if (TARGET config)
       set_property(GLOBAL APPEND PROPERTY JOB_POOLS "msvc_config=1")

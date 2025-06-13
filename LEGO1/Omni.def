@@ -285,9 +285,7 @@ __imp__joyGetDevCapsA@12
 ?CWVertex@LegoEdge@@QAEPAVVector3@@AAVLegoWEEdge@@@Z
 ?GetCounterclockwiseEdge@LegoEdge@@QAEPAU1@AAVLegoWEEdge@@@Z
 ?GetClockwiseEdge@LegoEdge@@QAEPAU1@AAVLegoWEEdge@@@Z
-??0LegoUnknown100db7f4@@QAE@XZ
 ??1LegoEdge@@UAE@XZ
-?VTable0x04@LegoWEGEdge@@UAEJXZ
 ??1LegoWEGEdge@@UAE@XZ
 ??0LegoWEGEdge@@QAE@XZ
 _DirectInputCreateA@16
@@ -295,7 +293,6 @@ _DirectInputCreateA@16
 ??1MxDeviceEnumerate@@QAE@XZ
 ?SetDevice@MxDirect3D@@QAEHAAVMxDeviceEnumerate@@PAUMxDriver@@PAUDirect3DDeviceInfo@@@Z
 ?GetDevice@LegoDeviceEnumerate@@QAEHHAAPAUMxDriver@@AAPAUDirect3DDeviceInfo@@@Z
-?FUN_1009d0d0@LegoDeviceEnumerate@@QAEHXZ
 ?FUN_1009d210@LegoDeviceEnumerate@@QAEHXZ
 ?ParseDeviceName@LegoDeviceEnumerate@@QAEHPBD@Z
 ?DoEnumerate@MxDeviceEnumerate@@UAEHXZ
@@ -311,6 +308,9 @@ _DirectInputCreateA@16
 ?Pause@MxDirectDraw@@QAEHH@Z
 ?CreateRenderer@Tgl@@YAPAVRenderer@1@XZ
 ?ViewportDestroyCallback@@YAXPAUIDirect3DRMObject@@PAX@Z
+??0LegoOrientedEdge@@QAE@XZ
+?LinkEdgesAndFaces@LegoWEGEdge@@UAEJXZ
+?GetBestDevice@LegoDeviceEnumerate@@QAEHXZ
 
 ; MxTrace
 ;?_MxTrace@@YAXPBDZZ
