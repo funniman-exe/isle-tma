@@ -35,6 +35,7 @@ public:
 	static void SetCD(const char* p_cd);
 	static void SetHD(const char* p_hd);
 	static void SetSound3D(MxBool p_use3dSound);
+	static MxBool IsMxOmniReady();
 
 	MxOmni();
 	~MxOmni() override;

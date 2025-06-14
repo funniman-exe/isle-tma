@@ -41,6 +41,8 @@ DECOMP_SIZE_ASSERT(LegoWorldListCursor, 0x10)
 // STRING: LEGO1 0x100f6710
 const char* g_current = "current";
 
+static MxBool g_isLegoOmniReady = FALSE;
+
 // FUNCTION: LEGO1 0x10058a00
 LegoOmni::LegoOmni()
 {
@@ -51,6 +53,16 @@ LegoOmni::LegoOmni()
 LegoOmni::~LegoOmni()
 {
 	Destroy();
+}
+
+MxBool LegoOmni::IsLegoOmniReady()
+{
+	return g_isLegoOmniReady;
+}
+
+MxBool LegoOmni::IsBackendReady()
+{
+	return g_isLegoOmniReady && MxOmni::IsMxOmniReady();
 }
 
 // FUNCTION: LEGO1 0x10058bd0
@@ -73,6 +85,7 @@ void LegoOmni::Init()
 	m_bkgAudioManager = NULL;
 	m_unk0x13c = TRUE;
 	m_transitionManager = NULL;
+	g_isLegoOmniReady = TRUE;
 }
 
 // FUNCTION: LEGO1 0x10058c30

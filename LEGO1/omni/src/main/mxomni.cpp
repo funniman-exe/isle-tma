@@ -30,10 +30,17 @@ MxBool g_use3dSound = FALSE;
 // GLOBAL: LEGO1 0x101015b0
 MxOmni* MxOmni::g_instance = NULL;
 
+static MxBool g_isMxOmniReady = FALSE;
+
 // FUNCTION: LEGO1 0x100aef10
 MxOmni::MxOmni()
 {
 	Init();
+}
+
+MxBool MxOmni::IsMxOmniReady()
+{
+	return g_isMxOmniReady;
 }
 
 // FUNCTION: LEGO1 0x100aefb0
@@ -69,6 +76,7 @@ void MxOmni::Init()
 	m_streamer = NULL;
 	m_atomSet = NULL;
 	m_paused = FALSE;
+	g_isMxOmniReady = TRUE;
 }
 
 // FUNCTION: LEGO1 0x100af0b0

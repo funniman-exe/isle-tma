@@ -114,6 +114,9 @@ public:
 		return !strcmp(p_name, LegoOmni::ClassName()) || MxOmni::IsA(p_name);
 	}
 
+	static MxBool IsLegoOmniReady();
+	static MxBool IsBackendReady();
+
 	void Init() override;                                                                        // vtable+0x14
 	MxResult Create(MxOmniCreateParam& p_param) override;                                        // vtable+0x18
 	void Destroy() override;                                                                     // vtable+0x1c

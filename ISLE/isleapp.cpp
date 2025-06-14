@@ -314,7 +314,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			"\"LEGO Island: The Modder's Arrival\" failed to detect a DirectSound compatible sound card/driver. Please ensure any "
 			"possibly interfering applications have been terminated before re-launching \"LEGO Island: The Modder's Arrival\".",
 			"Sound Card Failure!",
-			MB_OK
+			MB_OK | MB_ICONERROR
 		);
 		return 0;
 	}
@@ -331,7 +331,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			"before continuing. This ensures that no unwanted behavior occurs by preventing you from changing configurations "
 			"while the game is running.",
 			"Please close Config!",
-			MB_OK
+			MB_OK | MB_ICONERROR
 		);
 		return 0;
 	}
@@ -344,7 +344,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			"\"LEGO Island: The Modder's Arrival\" encountered an error while attempting to create the application window. Please ensure any possibly "
 			"interfering applications have been terminated before re-launching \"LEGO Island: The Modder's Arrival\".",
 			"Failed to Create Window!",
-			MB_OK
+			MB_OK | MB_ICONERROR
 		);
 		return 0;
 	}
@@ -854,7 +854,7 @@ void IsleApp::LoadConfig()
 			"\"LEGO Island: The Modder's Arrival\" encountered an error while attempting to aquire the current directory from temporary registry key. "
 			"Please restart the computer and/or contact support to resolve the issue.",
 			"Failed to Aquire Key: \"temp\"",
-			MB_OK
+			MB_OK | MB_ICONERROR
 		);
 	}
 	
@@ -869,7 +869,7 @@ void IsleApp::LoadConfig()
 			"\"LEGO Island: The Modder's Arrival\" encountered an error while attempting to assign the diskpath registry key. "
 			"Please restart the computer and/or contact support to resolve the issue.",
 			"Failed to Assign Key: \"diskpath\"",
-			MB_OK
+			MB_OK | MB_ICONERROR
 		);
 	}*/
 	
@@ -881,7 +881,7 @@ void IsleApp::LoadConfig()
 	//		"\"LEGO Island: The Modder's Arrival\" encountered an error while attempting to assign the cdpath registry key. "
 	//		"Please restart the computer and/or contact support to resolve the issue.",
 	//		"Failed to Assign Key: \"cdpath\"",
-	//		MB_OK
+	//		MB_OK | MB_ICONERROR
 	//	);
 	//}
 
@@ -892,7 +892,7 @@ void IsleApp::LoadConfig()
 			"\"LEGO Island: The Modder's Arrival\" encountered an error while attempting to aquire the \"diskpath\" registry key. "
 			"Please ensure you followed the instructions in the README text document properly and relaunch the game.",
 			"Failed to Aquire Key: \"diskpath\"",
-			MB_OK
+			MB_OK | MB_ICONERROR
 		);
 		Close();
 		MxOmni::DestroyInstance();
@@ -979,7 +979,7 @@ void IsleApp::LoadConfig()
 				"\"LEGO Island: The Modder's Arrival\" encountered an error while attempting to assign the savepath registry key. "
 				"Please restart the computer and/or contact support to resolve the issue.",
 				"Failed to Assign Key: \"savepath\"",
-				MB_OK
+				MB_OK | MB_ICONERROR
 			);
 			Close();
 			MxOmni::DestroyInstance();
@@ -994,7 +994,9 @@ inline void IsleApp::Tick(BOOL sleepIfNotNextFrame)
 	static MxLong g_lastFrameTime = 0;
 
 	// GLOBAL: ISLE 0x4101bc
-	static int g_startupDelay = 200;
+	//static int g_startupDelay = 200;
+	static int g_startupTimeout = 1000;
+	static MxBool g_hasInit = FALSE;
 
 	if (!m_windowActive) {
 		Sleep(0);
@@ -1022,12 +1024,34 @@ inline void IsleApp::Tick(BOOL sleepIfNotNextFrame)
 		}
 		g_lastFrameTime = currentTime;
 
-		if (g_startupDelay == 0) {
+		//if (g_startupDelay == 0) {
+		if (g_hasInit == TRUE) {
 			return;
 		}
 
-		g_startupDelay--;
-		if (g_startupDelay != 0) {
+		g_hasInit = LegoOmni::IsBackendReady();
+
+		//g_startupDelay--;
+		g_startupTimeout--;
+		//if (g_startupDelay != 0) {
+		if (g_startupTimeout == 0) {
+			int msgBox = MessageBox(
+				NULL,
+				"LegoOmni backend failed to respond in the provided 1000 tick timeout.",
+				"LegoOmni Timeout",
+				MB_RETRYCANCEL | MB_ICONERROR | MB_DEFBUTTON2
+			);
+			if (msgBox == IDRETRY)
+			{
+				g_startupTimeout = 1000;
+				return;
+			}
+			g_closed = true;
+			return;
+		}
+
+		if (g_hasInit != TRUE)
+		{
 			return;
 		}
 

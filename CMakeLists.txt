@@ -94,6 +94,7 @@ option(ISLE_DECOMP_ASSERT "Assert struct size" ${MSVC_FOR_DECOMP})
 cmake_dependent_option(ISLE_USE_DX5_LIBS "Build with internal DirectX 5 SDK Libraries" ON ISLE_USE_DX5 OFF)
 option(ISLE_BUILD_LEGO1 "Build B_TMA.DLL library" ON)
 option(ISLE_BUILD_BETA10 "Build X10_TMA.DLL library" OFF)
+option(ISLE_SPLIT_LEGO1 "Split Omni from the Lego1 library (broken)" OFF)
 option(ISLE_INCLUDE_ENTROPY "Build with entropy.h" OFF)
 option(ISLE_ENTROPY_FILENAME "Entropy header filename" "entropy.h")
 
@@ -238,128 +239,218 @@ function(add_lego_libraries NAME)
   set_property(TARGET 3dmanager${ARG_SUFFIX} PROPERTY ARCHIVE_OUTPUT_NAME "3dmanager$<$<CONFIG:Debug>:d>${ARG_SUFFIX}")
   target_include_directories(3dmanager${ARG_SUFFIX} PRIVATE "${PROJECT_SOURCE_DIR}/LEGO1" "${PROJECT_SOURCE_DIR}/util")
   target_link_libraries(3dmanager${ARG_SUFFIX} PRIVATE Vec::Vec)
-
-  # add_library(omni${ARG_SUFFIX} STATIC
-  add_library(omni${ARG_SUFFIX} SHARED
-    LEGO1/omni/src/notify/mxnotificationmanager.cpp
-    LEGO1/omni/src/common/mxdebug.cpp
-    LEGO1/omni/src/common/mxmisc.cpp
-    LEGO1/omni/src/common/mxatom.cpp
-    LEGO1/omni/src/action/mxdsaction.cpp
-    LEGO1/omni/src/common/mxtimer.cpp
-    LEGO1/omni/src/common/mxcore.cpp
-    LEGO1/omni/src/common/mxstring.cpp
-    LEGO1/omni/src/audio/mxsoundmanager.cpp
-    LEGO1/omni/src/main/mxomni.cpp
-    LEGO1/omni/src/notify/mxactionnotificationparam.cpp
-    LEGO1/omni/src/main/mxomnicreateflags.cpp
-    LEGO1/omni/src/main/mxomnicreateparam.cpp
-    LEGO1/omni/src/common/mxobjectfactory.cpp
-    LEGO1/omni/src/audio/mxsoundpresenter.cpp
-    LEGO1/omni/src/audio/mxwavepresenter.cpp
-    LEGO1/omni/src/video/mxvideopresenter.cpp
-    LEGO1/omni/src/video/mxflcpresenter.cpp
-    LEGO1/omni/src/video/mxsmkpresenter.cpp
-    LEGO1/omni/src/video/mxloopingflcpresenter.cpp
-    LEGO1/omni/src/video/mxloopingsmkpresenter.cpp
-    LEGO1/omni/src/common/mxpresenter.cpp
-    LEGO1/omni/src/common/mxmediapresenter.cpp
-    LEGO1/omni/src/common/mxcompositepresenter.cpp
-    LEGO1/omni/src/system/mxcriticalsection.cpp
-    LEGO1/omni/src/common/mxutilities.cpp
-    LEGO1/omni/src/common/mxvariabletable.cpp
-    LEGO1/omni/src/stream/mxdssubscriber.cpp
-    LEGO1/omni/src/common/mxmediamanager.cpp
-    LEGO1/omni/src/system/mxticklethread.cpp
-    LEGO1/omni/src/audio/mxaudiomanager.cpp
-    LEGO1/omni/src/system/mxautolock.cpp
-    LEGO1/omni/src/stream/mxstreamer.cpp
-    LEGO1/omni/src/video/mxstillpresenter.cpp
-    LEGO1/omni/src/video/mxdisplaysurface.cpp
-    LEGO1/omni/src/video/mxbitmap.cpp
-    LEGO1/omni/src/video/flic.cpp
-    LEGO1/omni/src/common/mxticklemanager.cpp
-    LEGO1/omni/src/stream/mxdschunk.cpp
-    LEGO1/omni/src/video/mxvideomanager.cpp
-    LEGO1/omni/src/video/mxvideoparamflags.cpp
-    LEGO1/omni/src/video/mxvideoparam.cpp
-    LEGO1/omni/src/video/mxpalette.cpp
-    LEGO1/omni/src/system/mxscheduler.cpp
-    LEGO1/omni/src/system/mxthread.cpp
-    LEGO1/omni/src/action/mxdsobject.cpp
-    LEGO1/omni/src/event/mxeventmanager.cpp
-    LEGO1/omni/src/audio/mxmusicmanager.cpp
-    LEGO1/omni/src/stream/mxstreamcontroller.cpp
-    LEGO1/omni/src/audio/mxmusicpresenter.cpp
-    LEGO1/omni/src/audio/mxmidipresenter.cpp
-    LEGO1/omni/src/audio/mxloopingmidipresenter.cpp
-    LEGO1/omni/src/event/mxeventpresenter.cpp
-    LEGO1/omni/src/stream/mxstreamchunk.cpp
-    LEGO1/omni/src/video/mxregion.cpp
-    LEGO1/omni/src/video/mxsmk.cpp
-    LEGO1/omni/src/stream/mxramstreamcontroller.cpp
-    LEGO1/omni/src/stream/mxdsbuffer.cpp
-    LEGO1/omni/src/stream/mxdiskstreamcontroller.cpp
-    LEGO1/omni/src/system/mxsemaphore.cpp
-    LEGO1/omni/src/action/mxdsobjectaction.cpp
-    LEGO1/omni/src/action/mxdsmediaaction.cpp
-    LEGO1/omni/src/action/mxdsanim.cpp
-    LEGO1/omni/src/action/mxdssound.cpp
-    LEGO1/omni/src/action/mxdsevent.cpp
-    LEGO1/omni/src/action/mxdsstill.cpp
-    LEGO1/omni/src/action/mxdsmultiaction.cpp
-    LEGO1/omni/src/action/mxdsserialaction.cpp
-    LEGO1/omni/src/action/mxdsparallelaction.cpp
-    LEGO1/omni/src/action/mxdsselectaction.cpp
-    LEGO1/omni/src/stream/mxdsfile.cpp
-    LEGO1/omni/src/stream/mxio.cpp
-    LEGO1/omni/src/action/mxdsstreamingaction.cpp
-    LEGO1/omni/src/stream/mxramstreamprovider.cpp
-    LEGO1/omni/src/stream/mxdiskstreamprovider.cpp
-    LEGO1/define.cpp
-    LEGO1/main.cpp
-    LEGO1/res/omni.rc
-  )
-  list(APPEND list_targets omni${ARG_SUFFIX})
-  # set_property(TARGET omni${ARG_SUFFIX} PROPERTY ARCHIVE_OUTPUT_NAME "omni$<$<CONFIG:Debug>:d>${ARG_SUFFIX}")
-  set_property(TARGET omni${ARG_SUFFIX} PROPERTY OUTPUT_NAME "B_OMNI${plat_suffix}${plat_bits}${build_suffix}")
-  set_property(TARGET omni${ARG_SUFFIX} PROPERTY PREFIX "${ARG_DLL_PREFIX}")
-  set_property(TARGET omni${ARG_SUFFIX} PROPERTY SUFFIX "${ARG_DLL_SUFFIX}")
-  target_include_directories(omni${ARG_SUFFIX} PRIVATE "${PROJECT_SOURCE_DIR}/LEGO1/omni/include" "${PROJECT_SOURCE_DIR}/LEGO1" "${PROJECT_SOURCE_DIR}/util")
-  target_link_libraries(omni${ARG_SUFFIX} PRIVATE 
-    dsound
-    winmm
-    Smacker::Smacker
-    ddraw
-    dinput
-    geom${ARG_SUFFIX}
-    mxdirectx${ARG_SUFFIX}
-    tglrl${ARG_SUFFIX}
-    shape${ARG_SUFFIX}
-    dxguid
-  )
   
-  target_compile_definitions(omni${ARG_SUFFIX} PRIVATE "_CRT_SECURE_NO_WARNINGS")
-  # target_compile_options(omni${ARG_SUFFIX} PRIVATE "-Zc:__cplusplus")
-
-  if (ISLE_DECOMP_ASSERT)
-    # message(STATUS "Decomp asserts enabled")
-    target_compile_definitions(omni${ARG_SUFFIX} PRIVATE "ENABLE_DECOMP_ASSERTS")
+  if (ISLE_SPLIT_LEGO1)
+    add_library(omni${ARG_SUFFIX} SHARED
+      LEGO1/omni/src/notify/mxnotificationmanager.cpp
+      LEGO1/omni/src/common/mxdebug.cpp
+      LEGO1/omni/src/common/mxmisc.cpp
+      LEGO1/omni/src/common/mxatom.cpp
+      LEGO1/omni/src/action/mxdsaction.cpp
+      LEGO1/omni/src/common/mxtimer.cpp
+      LEGO1/omni/src/common/mxcore.cpp
+      LEGO1/omni/src/common/mxstring.cpp
+      LEGO1/omni/src/audio/mxsoundmanager.cpp
+      LEGO1/omni/src/main/mxomni.cpp
+      LEGO1/omni/src/notify/mxactionnotificationparam.cpp
+      LEGO1/omni/src/main/mxomnicreateflags.cpp
+      LEGO1/omni/src/main/mxomnicreateparam.cpp
+      LEGO1/omni/src/common/mxobjectfactory.cpp
+      LEGO1/omni/src/audio/mxsoundpresenter.cpp
+      LEGO1/omni/src/audio/mxwavepresenter.cpp
+      LEGO1/omni/src/video/mxvideopresenter.cpp
+      LEGO1/omni/src/video/mxflcpresenter.cpp
+      LEGO1/omni/src/video/mxsmkpresenter.cpp
+      LEGO1/omni/src/video/mxloopingflcpresenter.cpp
+      LEGO1/omni/src/video/mxloopingsmkpresenter.cpp
+      LEGO1/omni/src/common/mxpresenter.cpp
+      LEGO1/omni/src/common/mxmediapresenter.cpp
+      LEGO1/omni/src/common/mxcompositepresenter.cpp
+      LEGO1/omni/src/system/mxcriticalsection.cpp
+      LEGO1/omni/src/common/mxutilities.cpp
+      LEGO1/omni/src/common/mxvariabletable.cpp
+      LEGO1/omni/src/stream/mxdssubscriber.cpp
+      LEGO1/omni/src/common/mxmediamanager.cpp
+      LEGO1/omni/src/system/mxticklethread.cpp
+      LEGO1/omni/src/audio/mxaudiomanager.cpp
+      LEGO1/omni/src/system/mxautolock.cpp
+      LEGO1/omni/src/stream/mxstreamer.cpp
+      LEGO1/omni/src/video/mxstillpresenter.cpp
+      LEGO1/omni/src/video/mxdisplaysurface.cpp
+      LEGO1/omni/src/video/mxbitmap.cpp
+      LEGO1/omni/src/video/flic.cpp
+      LEGO1/omni/src/common/mxticklemanager.cpp
+      LEGO1/omni/src/stream/mxdschunk.cpp
+      LEGO1/omni/src/video/mxvideomanager.cpp
+      LEGO1/omni/src/video/mxvideoparamflags.cpp
+      LEGO1/omni/src/video/mxvideoparam.cpp
+      LEGO1/omni/src/video/mxpalette.cpp
+      LEGO1/omni/src/system/mxscheduler.cpp
+      LEGO1/omni/src/system/mxthread.cpp
+      LEGO1/omni/src/action/mxdsobject.cpp
+      LEGO1/omni/src/event/mxeventmanager.cpp
+      LEGO1/omni/src/audio/mxmusicmanager.cpp
+      LEGO1/omni/src/stream/mxstreamcontroller.cpp
+      LEGO1/omni/src/audio/mxmusicpresenter.cpp
+      LEGO1/omni/src/audio/mxmidipresenter.cpp
+      LEGO1/omni/src/audio/mxloopingmidipresenter.cpp
+      LEGO1/omni/src/event/mxeventpresenter.cpp
+      LEGO1/omni/src/stream/mxstreamchunk.cpp
+      LEGO1/omni/src/video/mxregion.cpp
+      LEGO1/omni/src/video/mxsmk.cpp
+      LEGO1/omni/src/stream/mxramstreamcontroller.cpp
+      LEGO1/omni/src/stream/mxdsbuffer.cpp
+      LEGO1/omni/src/stream/mxdiskstreamcontroller.cpp
+      LEGO1/omni/src/system/mxsemaphore.cpp
+      LEGO1/omni/src/action/mxdsobjectaction.cpp
+      LEGO1/omni/src/action/mxdsmediaaction.cpp
+      LEGO1/omni/src/action/mxdsanim.cpp
+      LEGO1/omni/src/action/mxdssound.cpp
+      LEGO1/omni/src/action/mxdsevent.cpp
+      LEGO1/omni/src/action/mxdsstill.cpp
+      LEGO1/omni/src/action/mxdsmultiaction.cpp
+      LEGO1/omni/src/action/mxdsserialaction.cpp
+      LEGO1/omni/src/action/mxdsparallelaction.cpp
+      LEGO1/omni/src/action/mxdsselectaction.cpp
+      LEGO1/omni/src/stream/mxdsfile.cpp
+      LEGO1/omni/src/stream/mxio.cpp
+      LEGO1/omni/src/action/mxdsstreamingaction.cpp
+      LEGO1/omni/src/stream/mxramstreamprovider.cpp
+      LEGO1/omni/src/stream/mxdiskstreamprovider.cpp
+      LEGO1/define.cpp
+      LEGO1/main.cpp
+      LEGO1/res/omni.rc
+    )
+  else()
+    add_library(omni${ARG_SUFFIX} STATIC
+      LEGO1/omni/src/notify/mxnotificationmanager.cpp
+      LEGO1/omni/src/common/mxdebug.cpp
+      LEGO1/omni/src/common/mxmisc.cpp
+      LEGO1/omni/src/common/mxatom.cpp
+      LEGO1/omni/src/action/mxdsaction.cpp
+      LEGO1/omni/src/common/mxtimer.cpp
+      LEGO1/omni/src/common/mxcore.cpp
+      LEGO1/omni/src/common/mxstring.cpp
+      LEGO1/omni/src/audio/mxsoundmanager.cpp
+      LEGO1/omni/src/main/mxomni.cpp
+      LEGO1/omni/src/notify/mxactionnotificationparam.cpp
+      LEGO1/omni/src/main/mxomnicreateflags.cpp
+      LEGO1/omni/src/main/mxomnicreateparam.cpp
+      LEGO1/omni/src/common/mxobjectfactory.cpp
+      LEGO1/omni/src/audio/mxsoundpresenter.cpp
+      LEGO1/omni/src/audio/mxwavepresenter.cpp
+      LEGO1/omni/src/video/mxvideopresenter.cpp
+      LEGO1/omni/src/video/mxflcpresenter.cpp
+      LEGO1/omni/src/video/mxsmkpresenter.cpp
+      LEGO1/omni/src/video/mxloopingflcpresenter.cpp
+      LEGO1/omni/src/video/mxloopingsmkpresenter.cpp
+      LEGO1/omni/src/common/mxpresenter.cpp
+      LEGO1/omni/src/common/mxmediapresenter.cpp
+      LEGO1/omni/src/common/mxcompositepresenter.cpp
+      LEGO1/omni/src/system/mxcriticalsection.cpp
+      LEGO1/omni/src/common/mxutilities.cpp
+      LEGO1/omni/src/common/mxvariabletable.cpp
+      LEGO1/omni/src/stream/mxdssubscriber.cpp
+      LEGO1/omni/src/common/mxmediamanager.cpp
+      LEGO1/omni/src/system/mxticklethread.cpp
+      LEGO1/omni/src/audio/mxaudiomanager.cpp
+      LEGO1/omni/src/system/mxautolock.cpp
+      LEGO1/omni/src/stream/mxstreamer.cpp
+      LEGO1/omni/src/video/mxstillpresenter.cpp
+      LEGO1/omni/src/video/mxdisplaysurface.cpp
+      LEGO1/omni/src/video/mxbitmap.cpp
+      LEGO1/omni/src/video/flic.cpp
+      LEGO1/omni/src/common/mxticklemanager.cpp
+      LEGO1/omni/src/stream/mxdschunk.cpp
+      LEGO1/omni/src/video/mxvideomanager.cpp
+      LEGO1/omni/src/video/mxvideoparamflags.cpp
+      LEGO1/omni/src/video/mxvideoparam.cpp
+      LEGO1/omni/src/video/mxpalette.cpp
+      LEGO1/omni/src/system/mxscheduler.cpp
+      LEGO1/omni/src/system/mxthread.cpp
+      LEGO1/omni/src/action/mxdsobject.cpp
+      LEGO1/omni/src/event/mxeventmanager.cpp
+      LEGO1/omni/src/audio/mxmusicmanager.cpp
+      LEGO1/omni/src/stream/mxstreamcontroller.cpp
+      LEGO1/omni/src/audio/mxmusicpresenter.cpp
+      LEGO1/omni/src/audio/mxmidipresenter.cpp
+      LEGO1/omni/src/audio/mxloopingmidipresenter.cpp
+      LEGO1/omni/src/event/mxeventpresenter.cpp
+      LEGO1/omni/src/stream/mxstreamchunk.cpp
+      LEGO1/omni/src/video/mxregion.cpp
+      LEGO1/omni/src/video/mxsmk.cpp
+      LEGO1/omni/src/stream/mxramstreamcontroller.cpp
+      LEGO1/omni/src/stream/mxdsbuffer.cpp
+      LEGO1/omni/src/stream/mxdiskstreamcontroller.cpp
+      LEGO1/omni/src/system/mxsemaphore.cpp
+      LEGO1/omni/src/action/mxdsobjectaction.cpp
+      LEGO1/omni/src/action/mxdsmediaaction.cpp
+      LEGO1/omni/src/action/mxdsanim.cpp
+      LEGO1/omni/src/action/mxdssound.cpp
+      LEGO1/omni/src/action/mxdsevent.cpp
+      LEGO1/omni/src/action/mxdsstill.cpp
+      LEGO1/omni/src/action/mxdsmultiaction.cpp
+      LEGO1/omni/src/action/mxdsserialaction.cpp
+      LEGO1/omni/src/action/mxdsparallelaction.cpp
+      LEGO1/omni/src/action/mxdsselectaction.cpp
+      LEGO1/omni/src/stream/mxdsfile.cpp
+      LEGO1/omni/src/stream/mxio.cpp
+      LEGO1/omni/src/action/mxdsstreamingaction.cpp
+      LEGO1/omni/src/stream/mxramstreamprovider.cpp
+      LEGO1/omni/src/stream/mxdiskstreamprovider.cpp
+      LEGO1/define.cpp
+      LEGO1/main.cpp
+      LEGO1/res/omni.rc
+    )
   endif()
 
-  # set_property(GLOBAL APPEND PROPERTY JOB_POOLS "msvc_omni=1")
-  # set_property(TARGET omni${ARG_SUFFIX} PROPERTY JOB_POOL_COMPILE "msvc_omni")
-  # set_property(TARGET omni${ARG_SUFFIX} PROPERTY JOB_POOL_LINK "msvc_omni")
+  list(APPEND list_targets omni${ARG_SUFFIX})
 
-  if (ISLE_USE_SMARTHEAP)
-    target_link_libraries(omni${ARG_SUFFIX} PRIVATE SmartHeap::SmartHeap)
+  if (ISLE_SPLIT_LEGO1)
+    set_property(TARGET omni${ARG_SUFFIX} PROPERTY OUTPUT_NAME "B_OMNI${plat_suffix}${plat_bits}${build_suffix}")
+    set_property(TARGET omni${ARG_SUFFIX} PROPERTY PREFIX "${ARG_DLL_PREFIX}")
+    set_property(TARGET omni${ARG_SUFFIX} PROPERTY SUFFIX "${ARG_DLL_SUFFIX}")
+
+    target_link_libraries(omni${ARG_SUFFIX} PRIVATE 
+      dsound
+      winmm
+      Smacker::Smacker
+      ddraw
+      dinput
+      geom${ARG_SUFFIX}
+      mxdirectx${ARG_SUFFIX}
+      tglrl${ARG_SUFFIX}
+      shape${ARG_SUFFIX}
+      dxguid
+    )
+  
+    # target_compile_definitions(omni${ARG_SUFFIX} PRIVATE "_CRT_SECURE_NO_WARNINGS")
+    # target_compile_options(omni${ARG_SUFFIX} PRIVATE "-Zc:__cplusplus")
+
+    if (ISLE_DECOMP_ASSERT)
+      # message(STATUS "Decomp asserts enabled")
+      target_compile_definitions(omni${ARG_SUFFIX} PRIVATE "ENABLE_DECOMP_ASSERTS")
+    endif()
+
+    # set_property(GLOBAL APPEND PROPERTY JOB_POOLS "msvc_omni=1")
+    # set_property(TARGET omni${ARG_SUFFIX} PROPERTY JOB_POOL_COMPILE "msvc_omni")
+    # set_property(TARGET omni${ARG_SUFFIX} PROPERTY JOB_POOL_LINK "msvc_omni")
+
+    if (ISLE_USE_SMARTHEAP)
+      target_link_libraries(omni${ARG_SUFFIX} PRIVATE SmartHeap::SmartHeap)
+    endif()
+
+    if (MSVC_FOR_DECOMP)
+      set_property(TARGET omni${ARG_SUFFIX} PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    endif()
+
+    target_sources(omni${ARG_SUFFIX} PRIVATE LEGO1/Omni.def)
+  else()
+    set_property(TARGET omni${ARG_SUFFIX} PROPERTY ARCHIVE_OUTPUT_NAME "omni$<$<CONFIG:Debug>:d>${ARG_SUFFIX}")
+    target_link_libraries(omni${ARG_SUFFIX} PRIVATE dsound winmm Smacker::Smacker)
   endif()
 
-  if (MSVC_FOR_DECOMP)
-    set_property(TARGET omni${ARG_SUFFIX} PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-  endif()
-
-  target_sources(omni${ARG_SUFFIX} PRIVATE LEGO1/Omni.def)
+  target_include_directories(omni${ARG_SUFFIX} PRIVATE "${PROJECT_SOURCE_DIR}/LEGO1/omni/include" "${PROJECT_SOURCE_DIR}/LEGO1" "${PROJECT_SOURCE_DIR}/util")
 
   add_library(${NAME} SHARED
     LEGO1/lego/legoomni/src/worlds/score.cpp
@@ -495,23 +586,43 @@ function(add_lego_libraries NAME)
   target_include_directories(${NAME} PUBLIC "${PROJECT_SOURCE_DIR}/LEGO1/lego/legoomni/include/actions")
 
   # Link libraries
-  target_link_libraries(${NAME} PRIVATE
-    ${ARG_LINK_LIBRARIES}
-    dinput
-    misc${ARG_SUFFIX}
-    # geom${ARG_SUFFIX}
-    # mxdirectx${ARG_SUFFIX}
-    anim${ARG_SUFFIX}
-    # tglrl${ARG_SUFFIX}
-    realtime${ARG_SUFFIX}
-    viewmanager${ARG_SUFFIX}
-    roi${ARG_SUFFIX}
-    3dmanager${ARG_SUFFIX}
-    omni${ARG_SUFFIX}
-    # shape${ARG_SUFFIX}
-    Vec::Vec
-    dxguid
-  )
+  if (ISLE_SPLIT_LEGO1)
+    target_link_libraries(${NAME} PRIVATE
+      ${ARG_LINK_LIBRARIES}
+      dinput
+      misc${ARG_SUFFIX}
+      # geom${ARG_SUFFIX}
+      # mxdirectx${ARG_SUFFIX}
+      anim${ARG_SUFFIX}
+      # tglrl${ARG_SUFFIX}
+      realtime${ARG_SUFFIX}
+      viewmanager${ARG_SUFFIX}
+      roi${ARG_SUFFIX}
+      3dmanager${ARG_SUFFIX}
+      omni${ARG_SUFFIX}
+      # shape${ARG_SUFFIX}
+      Vec::Vec
+      dxguid
+    )
+  else()
+    target_link_libraries(${NAME} PRIVATE
+      ${ARG_LINK_LIBRARIES}
+      dinput
+      misc${ARG_SUFFIX}
+      geom${ARG_SUFFIX}
+      mxdirectx${ARG_SUFFIX}
+      anim${ARG_SUFFIX}
+      tglrl${ARG_SUFFIX}
+      realtime${ARG_SUFFIX}
+      viewmanager${ARG_SUFFIX}
+      roi${ARG_SUFFIX}
+      3dmanager${ARG_SUFFIX}
+      omni${ARG_SUFFIX}
+      shape${ARG_SUFFIX}
+      Vec::Vec
+      dxguid
+    )
+  endif()
 
   foreach(tgt IN LISTS list_targets)
     target_link_libraries(${tgt} PRIVATE ${ARG_LINK_LIBRARIES})
@@ -572,9 +683,12 @@ if (ISLE_BUILD_APP)
   endif()
 
   # Link DSOUND, WINMM, and LEGO1
-  target_link_libraries(isle PRIVATE dsound winmm omni)
+  if (ISLE_SPLIT_LEGO1)
+    target_link_libraries(isle PRIVATE dsound winmm omni)
+  else()
+    target_link_libraries(isle PRIVATE dsound winmm)
+  endif()
   if(ISLE_BUILD_LEGO1)
-    # target_link_libraries(isle PRIVATE lego1)
     target_link_libraries(isle PRIVATE lego1)
   else()
     target_link_libraries(isle PRIVATE beta10)

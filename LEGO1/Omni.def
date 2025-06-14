@@ -280,6 +280,8 @@ __imp__joyGetDevCapsA@12
 ?SetSound3D@MxOmni@@SAXE@Z
 ?StartMultiTasking@MxScheduler@@QAEXK@Z
 
+?IsMxOmniReady@MxOmni@@SAEXZ
+
 ; Other Functions
 ?CCWVertex@LegoEdge@@QAEPAVVector3@@AAVLegoWEEdge@@@Z
 ?CWVertex@LegoEdge@@QAEPAVVector3@@AAVLegoWEEdge@@@Z
@@ -314,3 +316,6 @@ _DirectInputCreateA@16
 
 ; MxTrace
 ;?_MxTrace@@YAXPBDZZ
+
+; _DllMain
+_DllMain@12

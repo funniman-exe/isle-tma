@@ -135,4 +135,9 @@ EXPORTS
 ?configureLegoPartPresenter@LegoPartPresenter@@SAXHH@Z
 ?configureLegoROI@LegoROI@@SAXH@Z
 ?configureLegoWorldPresenter@LegoWorldPresenter@@SAXH@Z
+
+?IsBackendReady@LegoOmni@@SAEXZ
+?IsLegoOmniReady@LegoOmni@@SAEXZ
+
+; _DllMain
 _DllMain@12
