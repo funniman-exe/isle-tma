@@ -36,6 +36,8 @@ MxResult MxMemoryPool<BS, NB>::Allocate()
 	m_pool = new MxU8[GetPoolSize() * m_blockSize * 1024];
 	assert(m_pool);
 
+	MxTrace("Alloc> %d pool: busy %d blocks -- %s\n", m_blockSize, m_blockRef.Count(), m_pool ? "SUCCESS" : "FAILURE");
+
 	return m_pool ? SUCCESS : FAILURE;
 }
 

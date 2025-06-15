@@ -31,7 +31,7 @@ build/*.lib
 build/*.exp
 setupPaths.bat
 build/CMakeFiles/
-build/compile_commands.json
+build/*.json
 build/SAV/
 
 build/.cmake
