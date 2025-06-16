@@ -2,6 +2,7 @@
 
 #include "act3.h"
 #include "credits_actions.h"
+#include "intro_actions.h"
 #include "helicopter.h"
 #include "infomain_actions.h"
 #include "jukebox.h"
@@ -40,6 +41,8 @@ const char* g_object2x4red = "2x4red";
 
 // GLOBAL: LEGO1 0x100f76a4
 const char* g_object2x4grn = "2x4grn";
+
+MxBool ShouldExit = FALSE;
 
 // GLOBAL: LEGO1 0x100f76a8
 InfomainScript::Script g_exitDialogueAct1[14] = {
@@ -267,7 +270,8 @@ MxLong Infocenter::Notify(MxParam& p_param)
 			m_bookAnimationTimer = 0;
 
 			if (m_infocenterState->m_unk0x74 == 0x0c) {
-				StartCredits();
+				//StartCredits();
+				PlayCutscene(e_outroMovie, TRUE);
 				m_infocenterState->m_unk0x74 = 0xd;
 			}
 			else if (m_destLocation != 0) {
@@ -286,6 +290,14 @@ MxLong Infocenter::Notify(MxParam& p_param)
 MxLong Infocenter::HandleEndAction(MxEndActionNotificationParam& p_param)
 {
 	MxDSAction* action = p_param.GetAction();
+	//if (m_currentCutscene == e_outroMovie) {
+	if (action->GetAtomId() == *g_introScript && action->GetObjectId() == IntroScript::c_Outro_Movie) {
+		StopCutscene();
+		//InvokeAction(Extra::e_opendisk, *g_creditsScript, CreditsScript::c_LegoCredits, NULL);
+		StartCredits();
+		return 1;
+	}
+	
 	if (action->GetAtomId() == *g_creditsScript && action->GetObjectId() == CreditsScript::c_LegoCredits) {
 		Lego()->CloseMainWindow();
 		return 1;
@@ -343,16 +355,19 @@ MxLong Infocenter::HandleEndAction(MxEndActionNotificationParam& p_param)
 	case 0:
 		switch (m_currentCutscene) {
 		case e_legoMovie:
+			StopCutscene();
 			PlayCutscene(e_mindscapeMovie, FALSE);
 			return 1;
 		case e_mindscapeMovie:
-			PlayCutscene(e_introMovie, TRUE);
+			StopCutscene();
+			//PlayCutscene(e_introMovie, TRUE);
+			PlayCutscene(e_introMovie, FALSE);
 			return 1;
 		case e_badEndMovie:
 			StopCutscene();
 			m_infocenterState->m_unk0x74 = 11;
 			PlayAction(InfomainScript::c_tic092in_RunAnim);
-			m_currentCutscene = e_noIntro;
+			m_currentCutscene = e_noIntro;\
 			return 1;
 		case e_goodEndMovie:
 			StopCutscene();
@@ -454,7 +469,8 @@ void Infocenter::ReadyWorld()
 
 		switch (m_infocenterState->m_unk0x74) {
 		case 3:
-			PlayCutscene(e_legoMovie, TRUE);
+			//PlayCutscene(e_legoMovie, TRUE);
+			PlayCutscene(e_legoMovie, FALSE);
 			m_infocenterState->m_unk0x74 = 0;
 			return;
 		case 4:
@@ -463,7 +479,8 @@ void Infocenter::ReadyWorld()
 				m_bookAnimationTimer = 1;
 			}
 
-			PlayAction(InfomainScript::c_iicx18in_RunAnim);
+			//PlayAction(InfomainScript::c_iicx18in_RunAnim);
+			PlayAction(InfomainScript::c_iic016in_RunAnim);
 			PlayMusic(JukeboxScript::c_InformationCenter_Music);
 			FUN_10015820(FALSE, LegoOmni::c_disableInput | LegoOmni::c_disable3d | LegoOmni::c_clearScreen);
 			return;
@@ -703,13 +720,14 @@ MxLong Infocenter::HandleKeyPress(MxS8 p_key)
 	if (p_key == VK_SPACE && m_worldStarted) {
 		switch (m_infocenterState->m_unk0x74) {
 		case 0:
-			StopCutscene();
+			/*StopCutscene();
 			m_infocenterState->m_unk0x74 = 1;
 
 			if (!m_infocenterState->HasRegistered()) {
 				m_bookAnimationTimer = 1;
 				return 1;
-			}
+			}*/
+			StopIntros();
 			break;
 		case 1:
 		case 4:
@@ -1416,7 +1434,7 @@ MxBool Infocenter::Escape()
 			m_infocenterState->m_unk0x74 = 1;
 		}
 		else if (val == 13) {
-			StopCredits();
+			StopCreditsAll();
 		}
 		else if (val != 8) {
 			m_infocenterState->m_unk0x74 = 8;
@@ -1485,6 +1503,7 @@ void Infocenter::StartCredits()
 	GetViewManager()->RemoveAll(NULL);
 
 	InvokeAction(Extra::e_opendisk, *g_creditsScript, CreditsScript::c_LegoCredits, NULL);
+	//PlayCutscene(e_outroMovie, TRUE);
 	SetAppCursor(e_cursorArrow);
 }
 
@@ -1492,10 +1511,48 @@ void Infocenter::StartCredits()
 void Infocenter::StopCredits()
 {
 	MxDSAction action;
-	action.SetObjectId(CreditsScript::c_LegoCredits);
-	action.SetAtomId(*g_creditsScript);
+	action.SetObjectId(IntroScript::c_Outro_Movie);
+	action.SetAtomId(*g_introScript);
 	action.SetUnknown24(-2);
 	DeleteObject(action);
+	MxDSAction action2;
+	action2.SetObjectId(CreditsScript::c_LegoCredits);
+	action2.SetAtomId(*g_creditsScript);
+	action2.SetUnknown24(-2);
+	DeleteObject(action2);
+}
+
+void Infocenter::StopCreditsAll()
+{
+	StopCredits();
+	ShouldExit = TRUE;
+}
+
+// HACK: Stop intro videos the same way we stop
+//	the credits, that way we can skip between
+//	the videos and not skip them all
+//
+//	If we take the easier route and call
+//	StopCutscene() on user input, you
+//	can see the info center for a few
+//	frames before the next video loads
+void Infocenter::StopIntros()
+{
+	MxDSAction action;
+	action.SetObjectId(IntroScript::c_Lego_Movie);
+	action.SetAtomId(*g_introScript);
+	action.SetUnknown24(-2);
+	DeleteObject(action);
+	MxDSAction action2;
+	action2.SetObjectId(IntroScript::c_Mindscape_Movie);
+	action2.SetAtomId(*g_introScript);
+	action2.SetUnknown24(-2);
+	DeleteObject(action2);
+	MxDSAction action3;
+	action3.SetObjectId(IntroScript::c_Intro_Movie);
+	action3.SetAtomId(*g_introScript);
+	action3.SetUnknown24(-2);
+	DeleteObject(action3);
 }
 
 // FUNCTION: LEGO1 0x10071300

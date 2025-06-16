@@ -158,6 +158,9 @@ private:
 
 	void StartCredits();
 	void StopCredits();
+	void StopCreditsAll();
+
+	void StopIntros();
 
 	void PlayAction(InfomainScript::Script p_script);
 	void StopCurrentAction();
