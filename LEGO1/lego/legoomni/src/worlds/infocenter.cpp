@@ -367,7 +367,7 @@ MxLong Infocenter::HandleEndAction(MxEndActionNotificationParam& p_param)
 			StopCutscene();
 			m_infocenterState->m_unk0x74 = 11;
 			PlayAction(InfomainScript::c_tic092in_RunAnim);
-			m_currentCutscene = e_noIntro;\
+			m_currentCutscene = e_noIntro;
 			return 1;
 		case e_goodEndMovie:
 			StopCutscene();
