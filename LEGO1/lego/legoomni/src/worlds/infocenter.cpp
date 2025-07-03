@@ -222,7 +222,7 @@ MxResult Infocenter::Create(MxDSAction& p_dsAction)
 
 	if (m_infocenterState->m_unk0x74 == 4) {
 		LegoGameState* state = GameState();
-		state->SetPreviousArea(GameState()->GetUnknown0x42c());
+		state->m_previousArea = GameState()->m_unk0x42c;
 	}
 
 	InputManager()->Register(this);
@@ -1038,13 +1038,13 @@ MxU8 Infocenter::HandleControl(LegoControlManagerNotificationParam& p_param)
 		case InfomainScript::c_BigInfo_Ctl:
 			switch (state->GetCurrentAct()) {
 			case LegoGameState::e_act1:
-				if (state->GetPreviousArea()) {
-					switch (state->GetPreviousArea()) {
+				if (state->m_previousArea) {
+					switch (state->m_previousArea) {
 					case LegoGameState::e_infodoor:
 					case LegoGameState::e_regbook:
 					case LegoGameState::e_infoscor:
 						m_infocenterState->m_unk0x74 = 5;
-						m_destLocation = state->GetPreviousArea();
+						m_destLocation = state->m_previousArea;
 						actionToPlay = (InfomainScript::Script) m_infocenterState->GetNextLeaveDialogue();
 						m_radio.Stop();
 						InputManager()->DisableInputProcessing();
@@ -1099,7 +1099,7 @@ MxU8 Infocenter::HandleControl(LegoControlManagerNotificationParam& p_param)
 			actionToPlay = GameState()->GetCurrentAct() != LegoGameState::e_act1 ? InfomainScript::c_GoTo_RegBook_Red
 																				 : InfomainScript::c_GoTo_RegBook;
 			m_radio.Stop();
-			GameState()->m_unk0x42c = GameState()->GetPreviousArea();
+			GameState()->m_unk0x42c = GameState()->m_previousArea;
 			InputManager()->DisableInputProcessing();
 			break;
 		case InfomainScript::c_Mama_Ctl:
@@ -1408,7 +1408,7 @@ void Infocenter::Reset()
 	AnimationManager()->Reset(FALSE);
 	CharacterManager()->ReleaseAllActors();
 	GameState()->SetCurrentAct(LegoGameState::e_act1);
-	GameState()->SetPreviousArea(LegoGameState::e_undefined);
+	GameState()->m_previousArea = LegoGameState::e_undefined;
 	GameState()->m_unk0x42c = LegoGameState::e_undefined;
 
 	InitializeBitmaps();
@@ -1468,7 +1468,7 @@ void Infocenter::StartCredits()
 			MxDSAction* action = presenter->GetAction();
 
 			if (action) {
-				FUN_100b7220(action, MxDSAction::c_world, FALSE);
+				ApplyMask(action, MxDSAction::c_world, FALSE);
 				presenter->EndAction();
 			}
 		}
@@ -1484,7 +1484,7 @@ void Infocenter::StartCredits()
 
 		MxDSAction* action = presenter->GetAction();
 		if (action) {
-			FUN_100b7220(action, MxDSAction::c_world, FALSE);
+			ApplyMask(action, MxDSAction::c_world, FALSE);
 			presenter->EndAction();
 		}
 	}

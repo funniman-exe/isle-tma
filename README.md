@@ -1,6 +1,9 @@
 # LEGO Island: The Modder's Arrival
 
-## [Original LEGO Island decomp](https://github.com/isledecomp/isle)
+## Important Note
+
+The current version of this repository is based on [The Original LEGO Island decomp](https://github.com/isledecomp/isle), which is not ideal for the purposes this mod serves.
+Work is currently ongoing to merge TMA into [The Cross Platform ISLE Version](https://github.com/isledecomp/isle-portable)
 
 ## Building
 

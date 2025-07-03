@@ -691,7 +691,7 @@ MxLong LegoNavController::Notify(MxParam& p_param)
 				for (MxS32 i = 0; i < numPlants; i++) {
 					LegoEntity* entity = plantMgr->CreatePlant(i, NULL, LegoOmni::e_act1);
 
-					if (entity != NULL && !entity->GetUnknown0x10IsSet(LegoEntity::c_altBit1)) {
+					if (entity != NULL && !entity->IsInteraction(LegoEntity::c_disabled)) {
 						LegoROI* roi = entity->GetROI();
 
 						if (roi != NULL && roi->GetVisibility()) {
@@ -701,7 +701,7 @@ MxLong LegoNavController::Notify(MxParam& p_param)
 								Mx3DPointFloat roiPosition(roi->GetWorldPosition());
 								roiPosition -= viewPosition;
 
-								if (roiPosition.LenSquared() < 2000.0 || roi->GetUnknown0xe0() > 0) {
+								if (roiPosition.LenSquared() < 2000.0 || roi->GetLodLevel() > 0) {
 									entity->ClickAnimation();
 								}
 							}

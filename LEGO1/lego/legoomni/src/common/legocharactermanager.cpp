@@ -37,10 +37,10 @@ MxU32 g_characterAnimationId = 10;
 char* LegoCharacterManager::g_customizeAnimFile = NULL;
 
 // GLOBAL: LEGO1 0x100fc4d8
-MxU32 g_soundIdOffset = 50;
+MxU32 g_characterSoundIdOffset = 50;
 
 // GLOBAL: LEGO1 0x100fc4dc
-MxU32 g_soundIdMoodOffset = 66;
+MxU32 g_characterSoundIdMoodOffset = 66;
 
 // GLOBAL: LEGO1 0x100fc4e8
 MxU32 g_headTextureCounter = 0;
@@ -634,7 +634,7 @@ MxBool LegoCharacterManager::SetHeadTexture(LegoROI* p_roi, LegoTextureInfo* p_t
 			LegoLOD* clone = lod->Clone(renderer);
 
 			if (p_texture != NULL) {
-				clone->FUN_100aad70(p_texture);
+				clone->UpdateTextureInfo(p_texture);
 			}
 
 			dupLodList->PushBack(clone);
@@ -643,7 +643,7 @@ MxBool LegoCharacterManager::SetHeadTexture(LegoROI* p_roi, LegoTextureInfo* p_t
 		lodList->Release();
 		lodList = dupLodList;
 
-		if (head->GetUnknown0xe0() >= 0) {
+		if (head->GetLodLevel() >= 0) {
 			VideoManager()->Get3DManager()->GetLego3DView()->GetViewManager()->RemoveROIDetailFromScene(head);
 		}
 
@@ -844,7 +844,7 @@ MxBool LegoCharacterManager::SwitchVariant(LegoROI* p_roi)
 		lodList->Release();
 		lodList = dupLodList;
 
-		if (childROI->GetUnknown0xe0() >= 0) {
+		if (childROI->GetLodLevel() >= 0) {
 			VideoManager()->Get3DManager()->GetLego3DView()->GetViewManager()->RemoveROIDetailFromScene(childROI);
 		}
 
@@ -931,16 +931,16 @@ MxU32 LegoCharacterManager::GetAnimationId(LegoROI* p_roi)
 
 // FUNCTION: LEGO1 0x10085140
 // FUNCTION: BETA10 0x10076855
-MxU32 LegoCharacterManager::GetSoundId(LegoROI* p_roi, MxBool p_und)
+MxU32 LegoCharacterManager::GetSoundId(LegoROI* p_roi, MxBool p_basedOnMood)
 {
 	LegoActorInfo* info = GetActorInfo(p_roi);
 
-	if (p_und) {
-		return info->m_mood + g_soundIdMoodOffset;
+	if (p_basedOnMood) {
+		return info->m_mood + g_characterSoundIdMoodOffset;
 	}
 
 	if (info != NULL) {
-		return info->m_sound + g_soundIdOffset;
+		return info->m_sound + g_characterSoundIdOffset;
 	}
 	else {
 		return 0;

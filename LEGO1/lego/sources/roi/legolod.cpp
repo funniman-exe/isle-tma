@@ -69,11 +69,11 @@ LegoResult LegoLOD::Read(Tgl::Renderer* p_renderer, LegoTextureContainer* p_text
 	LegoU32 i, indexBackwards, indexForwards, tempNumVertsAndNormals;
 	unsigned char paletteEntries[256];
 
-	if (p_storage->Read(&m_unk0x08, sizeof(undefined4)) != SUCCESS) {
+	if (p_storage->Read(&m_flags, sizeof(LegoU32)) != SUCCESS) {
 		goto done;
 	}
 
-	if (GetUnknown0x08Test4()) {
+	if (SkipReadingData()) {
 		return SUCCESS;
 	}
 
@@ -84,11 +84,11 @@ LegoResult LegoLOD::Read(Tgl::Renderer* p_renderer, LegoTextureContainer* p_text
 	}
 
 	if (m_numMeshes == 0) {
-		ClearFlag(c_bit4);
+		ClearFlag(c_hasMesh);
 		return SUCCESS;
 	}
 
-	SetFlag(c_bit4);
+	SetFlag(c_hasMesh);
 
 	m_melems = new Mesh[m_numMeshes];
 	memset(m_melems, 0, sizeof(*m_melems) * m_numMeshes);
@@ -211,7 +211,7 @@ LegoResult LegoLOD::Read(Tgl::Renderer* p_renderer, LegoTextureContainer* p_text
 		m_melems[meshIndex].m_tglMesh->SetShadingModel(shadingModel);
 
 		if (textureName != NULL) {
-			if (mesh->GetUnknown0x21()) {
+			if (mesh->GetUseAlias()) {
 				LegoROI::GetPaletteEntries(textureName, paletteEntries, sizeOfArray(paletteEntries));
 			}
 
@@ -231,7 +231,7 @@ LegoResult LegoLOD::Read(Tgl::Renderer* p_renderer, LegoTextureContainer* p_text
 			LegoFloat blue = 1.0F;
 			LegoFloat alpha = 0.0F;
 
-			if (mesh->GetUnknown0x21()) {
+			if (mesh->GetUseAlias()) {
 				LegoROI::GetRGBAColor(materialName, red, green, blue, alpha);
 			}
 			else {
@@ -315,7 +315,7 @@ LegoLOD* LegoLOD::Clone(Tgl::Renderer* p_renderer)
 		dupLod->m_melems[i].m_textured = m_melems[i].m_textured;
 	}
 
-	dupLod->m_unk0x08 = m_unk0x08;
+	dupLod->m_flags = m_flags;
 	dupLod->m_numMeshes = m_numMeshes;
 	dupLod->m_numVertices = m_numVertices;
 	dupLod->m_numPolys = m_numPolys;
@@ -351,7 +351,7 @@ LegoResult LegoLOD::SetTextureInfo(LegoTextureInfo* p_textureInfo)
 }
 
 // FUNCTION: LEGO1 0x100aad70
-LegoResult LegoLOD::FUN_100aad70(LegoTextureInfo* p_textureInfo)
+LegoResult LegoLOD::UpdateTextureInfo(LegoTextureInfo* p_textureInfo)
 {
 	for (LegoU32 i = m_meshOffset; i < m_numMeshes; i++) {
 		if (m_melems[i].m_textured) {
